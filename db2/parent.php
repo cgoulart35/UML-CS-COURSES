@@ -126,13 +126,13 @@
 						<h2><?php echo "$userPage_name's " ?>Children:</h2>
 						<table border="1" style="width:75%">
 						  <tr>
-							<th>ID</th>
-							<th>Email</th> 
-							<th>Password</th>
-							<th>Name</th>
-							<th>Phone</th>
-							<th>Grade</th>
-							<th>Edit</th>
+							<th>ID:</th>
+							<th>Email:</th> 
+							<th>Password:</th>
+							<th>Name:</th>
+							<th>Phone:</th>
+							<th>Grade:</th>
+							<th>Edit:</th>
 						  </tr>
 				</html>
 				<?php
@@ -173,7 +173,7 @@
 					$isUserToUpdateAStudent = mysqli_fetch_assoc($student_result);
 					
 					if ($isUserToUpdateAStudent) {
-						echo '<th><a href="student.php?' . 'id=' . $row_id . '"> Edit Student </a></th>
+						echo '<td><a href="student.php?' . 'id=' . $row_id . '"> Edit Student </a></th>
 							</tr>';
 					}
 				}

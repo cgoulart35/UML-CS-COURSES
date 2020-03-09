@@ -216,15 +216,15 @@
 					$isUserToUpdateAParent = mysqli_fetch_assoc($parent_result);
 					
 					if ($isUserToUpdateAStudent) {
-						echo '<th><a href="student.php?' . 'id=' . $row_id . '"> Edit Student </a></th>
+						echo '<td><a href="student.php?' . 'id=' . $row_id . '"> Edit Student </a></th>
 							</tr>';
 					}
 					elseif ($isUserToUpdateAParent) {
-						echo '<th><a href="parent.php?' . 'id=' . $row_id . '"> Edit Parent </a></th>
+						echo '<td><a href="parent.php?' . 'id=' . $row_id . '"> Edit Parent </a></th>
 							</tr>';
 					}
 					else {
-						echo '<th><a href="admin.php?' . 'id=' . $row_id . '"> Edit Admin </a></th>
+						echo '<td><a href="admin.php?' . 'id=' . $row_id . '"> Edit Admin </a></th>
 							</tr>';
 					}
 				}
