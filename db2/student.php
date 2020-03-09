@@ -143,7 +143,7 @@
 				
 				?>
 				<html>
-						<h2>Meetings you are a mentor of:</h2>
+						<h2>Meetings <?php echo $userPage_name ?> is a mentor of:</h2>
 						<table border="1" style="width:75%">
 						  <tr>
 							<th>ID:</th>
@@ -152,8 +152,8 @@
 							<th>Time Slot:</th>
 							<th>Capacity:</th>
 							<th>Announcement:</th>
-							<th>View:</th>
-							<th>Drop:</th>
+							<th>View Meeting:</th>
+							<th>Drop Meeting:</th>
 						  </tr>
 				</html>
 				<?php
@@ -183,8 +183,8 @@
 							<td>$row_time_slot_day $row_time_slot_start - $row_time_slot_end</th>
 							<td>$row_capacity</th>
 							<td>$row_announcement</th>
-							<td><a href=meeting.php?mid=$row_id> View Meeting </a></th>
-							<td><a href=dropAsMentor.php?mid=$row_id&sid=$userPage_id> Drop Meeting </a></th>
+							<td><a href=meeting.php?mid=$row_id> View </a></th>
+							<td><a href=dropAsMentor.php?mid=$row_id&sid=$userPage_id> Drop </a></th>
 						</tr>";
 				}
 				
@@ -200,7 +200,7 @@
 				
 				?>
 				<html>
-						<h2>Meetings you are a mentee of:</h2>
+						<h2>Meetings <?php echo $userPage_name ?> is a mentee of:</h2>
 						<table border="1" style="width:75%">
 						  <tr>
 							<th>ID:</th>
@@ -240,8 +240,8 @@
 							<td>$row_time_slot_day $row_time_slot_start - $row_time_slot_end</th>
 							<td>$row_capacity</th>
 							<td>$row_announcement</th>
-							<td><a href=meeting.php?id=$row_id> View Meeting </a></th>
-							<td><a href=dropAsMentee.php?mid=$row_id&sid=$userPage_id> Drop Meeting </a></th>
+							<td><a href=meeting.php?mid=$row_id> View </a></th>
+							<td><a href=dropAsMentee.php?mid=$row_id&sid=$userPage_id> Drop </a></th>
 						</tr>";
 				}
 				
