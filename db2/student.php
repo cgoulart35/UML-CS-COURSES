@@ -188,18 +188,11 @@
 						</tr>";
 				}
 				
+				//show meetings student is mentee of
+				//view & drop option for each
 				?>
 				<html>
 						</table>
-						<br>
-				</html>
-				<?php
-				
-				//show meetings student is mentee of
-				//view & drop option for each
-				
-				?>
-				<html>
 						<h2>Meetings <?php echo $userPage_name ?> is a mentee of:</h2>
 						<table border="1" style="width:75%">
 						  <tr>
@@ -252,6 +245,9 @@
 					</div>
 				</html>
 				<?php
+				
+				
+				
 				
 				
 				

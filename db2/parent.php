@@ -132,7 +132,7 @@
 							<th>Name:</th>
 							<th>Phone:</th>
 							<th>Grade:</th>
-							<th>Edit:</th>
+							<th>Edit Child:</th>
 						  </tr>
 				</html>
 				<?php
@@ -173,7 +173,7 @@
 					$isUserToUpdateAStudent = mysqli_fetch_assoc($student_result);
 					
 					if ($isUserToUpdateAStudent) {
-						echo '<td><a href="student.php?' . 'id=' . $row_id . '"> Edit Student </a></th>
+						echo '<td><a href="student.php?' . 'id=' . $row_id . '"> Edit </a></th>
 							</tr>';
 					}
 				}

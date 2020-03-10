@@ -135,26 +135,53 @@
 					}
 				}
 				
-				
-				
-				
-				
-				
-				
-				
-				
-					
-				//TO DO:
 				//show all meetings and their information
-				//add materials to meetings
+				//post materials to meetings on meetings page
 				
+				?>
+				<html>
+						<h2>All Meetings:</h2>
+						<table border="1" style="width:75%">
+						  <tr>
+							<th>ID:</th>
+							<th>Name:</th> 
+							<th>Date:</th>
+							<th>Time Slot:</th>
+							<th>Capacity:</th>
+							<th>Announcement:</th>
+							<th>Post Materials:</th>
+						  </tr>
+				</html>
+				<?php
 				
+				$select_all_meetings_query = "SELECT * FROM meetings";
+				$select_all_meetings_query_result = mysqli_query($db2, $select_all_meetings_query);
 				
-				
-				
-				
-				
-				
+				while($row = $select_all_meetings_query_result->fetch_assoc()) {
+					$row_id = $row['meet_id'];
+					$row_name = $row['meet_name'];
+					$row_date = $row['date'];
+					$row_time_id = $row['time_slot_id'];
+					$row_capacity = $row['capacity'];
+					$row_announcement = $row['announcement'];
+					
+					$time_slot_query = "SELECT * FROM time_slot WHERE time_slot_id = '$row_time_id' LIMIT 1";
+					$time_slot_result = mysqli_query($db2, $time_slot_query);
+					$time_slot_arr = mysqli_fetch_assoc($time_slot_result);
+					$row_time_slot_day = $time_slot_arr['day_of_the_week'];
+					$row_time_slot_start = $time_slot_arr['start_time'];
+					$row_time_slot_end = $time_slot_arr['end_time'];
+					
+					echo "<tr>
+							<td>$row_id</th>
+							<td>$row_name</th> 
+							<td>$row_date</th>
+							<td>$row_time_slot_day $row_time_slot_start - $row_time_slot_end</th>
+							<td>$row_capacity</th>
+							<td>$row_announcement</th>
+							<td><a href=meeting.php?mid=$row_id> Post </a></th>
+						</tr>";
+				}
 				
 				//shown all users; bring you to parent page, or student page to update mentors and mentees of meetings
 				$select_all_users_query = "SELECT * FROM users";
@@ -162,6 +189,7 @@
 				
 				?>
 				<html>
+						</table>
 						<h2>All Users:</h2>
 						<table border="1" style="width:75%">
 						  <tr>
@@ -171,7 +199,7 @@
 							<th>Name</th>
 							<th>Phone</th>
 							<th>Grade</th>
-							<th>Edit</th>
+							<th>Edit User</th>
 						  </tr>
 				</html>
 				<?php

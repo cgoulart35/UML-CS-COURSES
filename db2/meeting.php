@@ -99,23 +99,98 @@
 				<td>$meeting_time_slot_day $meeting_time_slot_start - $meeting_time_slot_end</th>
 				<td>$meeting_capacity</th>
 				<td>$meeting_announcement</th>
-			</tr>";
+			</tr>
+			</table>";
+			
+		//if use is an admin, show option to post materials
+		if ($_SESSION['isAdmin']) {
+			?>
+			<html>
+					<h2>Post Materials:</h2>
+					<form method="post" action="meeting.php?mid=<?php echo $mid ?>">
+						<?php include ('errors.php'); ?>
+						<div class="input-group">
+							<label>Type:	</label>
+							<input type="text" name="type">
+						</div>
+						<div class="input-group">
+							<label>Notes:	</label>
+							<input style="height:100px" type="text" name="notes">
+						</div>
+						<div class="input-group">
+							<label>Title:	</label>
+							<input type="text" name="title">
+						</div>
+						<div class="input-group">
+							<label>Author:	</label>
+							<input type="text" name="author">
+						</div>
+						<div class="input-group">
+							<label>URL:		</label>
+							<input type="url" name="url">
+						</div>
+						<div class="input-group">
+							<button type="submit" class="btn" name="post_materials">Post</button>
+						</div>
+					</form>
+			</html>
+			<?php
+			
+			// IF POST IS CLICKED ON THE FORM
+			if (isset($_POST['post_materials'])) {
+				
+				// GET THE FORM VALUES
+				$type = mysqli_real_escape_string($db2, $_POST['type']);
+				$notes = mysqli_real_escape_string($db2, $_POST['notes']);
+				$title = mysqli_real_escape_string($db2, $_POST['title']);
+				$author = mysqli_real_escape_string($db2, $_POST['author']);
+				$url = mysqli_real_escape_string($db2, $_POST['url']);
+				date_default_timezone_set('America/New_York');
+				$assigned_date = date('Y-m-d');
+				
+				// CHECK IF ANY VALUES ARE EMPTY, AND IF PASSWORDS AREN'T EQUAL
+				if(empty($type)) { array_push($errors, "Enter a type."); }
+				if(empty($notes)) { array_push($errors, "Enter notes."); }
+				if(empty($title)) { array_push($errors, "Enter a title."); }
+
+				// CHECK TO SEE IF THERE ARE ANY EXISTING ERRORS
+				if(count($errors) == 0) {
+					
+					// INSERT THE MATERIAL INFORMATION INTO THE MATERIAL TABLE
+					$add_material_query = "INSERT INTO material (title, author, type, url, assigned_date, notes) VALUES('$title', '$author', '$type', '$url', '$assigned_date', '$notes')";
+					$stmt = mysqli_prepare($db2, $add_material_query);
+					mysqli_stmt_execute($stmt);
+					$id_of_material = mysqli_stmt_insert_id($stmt);
+					
+					// INSERT THE MATERIAL ID AND MEETING ID INTO THE ASSIGN TABLE
+					$assign_query = "INSERT INTO assign (meet_id, material_id) VALUES('$mid', '$id_of_material')";
+					mysqli_query($db2, $assign_query);
+					
+					header('Location: meeting.php?mid=' . $mid);
+				}
+				else {
+					// IF THERE ARE ERRORS, DISPLAY THEM
+					foreach($errors as $error) {
+						print($error . "<br>");
+					}
+				}
+			}
+			
+		}
 		
 		//show material of the meeting if logged in as mentor, mentee, parent of mentee, parent of mentor, or admin
 		if ($is_mentor_of_meeting || $is_mentee_of_meeting || ($_SESSION['isParent'] && ($is_parent_of_mentor || $is_parent_of_mentee)) || $_SESSION['isAdmin']) {
 			
 			?>
 			<html>
-					</table>
-					<br>
 					<h2>Meeting Material:</h2>
 					<table border="1" style="width:75%">
 					  <tr>
 						<th>Type:</th>
+						<th>Notes:</th> 
 						<th>Title:</th> 
 						<th>Author:</th> 
 						<th>URL:</th> 
-						<th>Notes:</th> 
 						<th>Assigned Date:</th> 
 					  </tr>
 			</html>
@@ -134,10 +209,10 @@
 			
 				echo "<tr>
 						<td>$row_type</th>
+						<td>$row_notes</th> 
 						<td>$row_title</th> 
 						<td>$row_author</th> 
-						<td><a href=https://$row_url>$row_url</a></th> 
-						<td>$row_notes</th> 
+						<td><a href=$row_url>$row_url</a></th> 
 						<td>$row_assigned_date</th> 
 					</tr>";
 			}
@@ -148,7 +223,6 @@
 			?>
 			<html>
 					</table>
-					<br>
 					<h2>Mentors:</h2>
 					<table border="1" style="width:75%">
 					  <tr>
@@ -172,7 +246,6 @@
 			?>
 			<html>
 					</table>
-					<br>
 					<h2>Mentees:</h2>
 					<table border="1" style="width:75%">
 					  <tr>

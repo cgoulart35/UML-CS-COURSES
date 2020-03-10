@@ -392,14 +392,14 @@ INSERT INTO `enroll2` (`meet_id`, `mentor_id`) VALUES (107, 36);
 INSERT INTO `enroll2` (`meet_id`, `mentor_id`) VALUES (108, 35);
 INSERT INTO `enroll2` (`meet_id`, `mentor_id`) VALUES (108, 36);
 
-INSERT INTO `material` (`title`, `author`, `type`, `url`, `assigned_date`, `notes`) VALUES ('Grade 6 English Material', 'Baby Yoda', 'Reading Assignment', 'google.com', '2020-02-29', 'Grade 6 English Material Notes');
-INSERT INTO `material` (`title`, `author`, `type`, `url`, `assigned_date`, `notes`) VALUES ('Grade 6 Math Material', 'Tiger Woods', 'Math Assignment', 'bing.com', '2020-02-29', 'Grade 6 Math Material Notes');
-INSERT INTO `material` (`title`, `author`, `type`, `url`, `assigned_date`, `notes`) VALUES ('Grade 7 English Material', 'Baby Yoda', 'Reading Assignment', 'google.com', '2020-02-29', 'Grade 7 English Material Notes');
-INSERT INTO `material` (`title`, `author`, `type`, `url`, `assigned_date`, `notes`) VALUES ('Grade 7 Math Material', 'Tiger Woods', 'Math Assignment', 'bing.com', '2020-03-01', 'Grade 7 Math Material Notes');
-INSERT INTO `material` (`title`, `author`, `type`, `url`, `assigned_date`, `notes`) VALUES ('Grade 8 English Material', 'Baby Yoda', 'Reading Assignment', 'google.com', '2020-02-29', 'Grade 8 English Material Notes');
-INSERT INTO `material` (`title`, `author`, `type`, `url`, `assigned_date`, `notes`) VALUES ('Grade 8 Math Material', 'Tiger Woods', 'Math Assignment', 'bing.com', '2020-03-01', 'Grade 8 Math Material Notes');
-INSERT INTO `material` (`title`, `author`, `type`, `url`, `assigned_date`, `notes`) VALUES ('Grade 9 English Material', 'Baby Yoda', 'Reading Assignment', 'google.com', '2020-02-29', 'Grade 9 English Material Notes');
-INSERT INTO `material` (`title`, `author`, `type`, `url`, `assigned_date`, `notes`) VALUES ('Grade 9 Math Material', 'Tiger Woods', 'Math Assignment', 'bing.com', '2020-03-01', 'Grade 9 Math Material Notes');
+INSERT INTO `material` (`title`, `author`, `type`, `url`, `assigned_date`, `notes`) VALUES ('Grade 6 English Material', 'Baby Yoda', 'Reading Assignment', 'https://google.com', '2020-02-29', 'Grade 6 English Material Notes');
+INSERT INTO `material` (`title`, `author`, `type`, `url`, `assigned_date`, `notes`) VALUES ('Grade 6 Math Material', 'Tiger Woods', 'Math Assignment', 'https://bing.com', '2020-02-29', 'Grade 6 Math Material Notes');
+INSERT INTO `material` (`title`, `author`, `type`, `url`, `assigned_date`, `notes`) VALUES ('Grade 7 English Material', 'Baby Yoda', 'Reading Assignment', 'https://google.com', '2020-02-29', 'Grade 7 English Material Notes');
+INSERT INTO `material` (`title`, `author`, `type`, `url`, `assigned_date`, `notes`) VALUES ('Grade 7 Math Material', 'Tiger Woods', 'Math Assignment', 'https://bing.com', '2020-03-01', 'Grade 7 Math Material Notes');
+INSERT INTO `material` (`title`, `author`, `type`, `url`, `assigned_date`, `notes`) VALUES ('Grade 8 English Material', 'Baby Yoda', 'Reading Assignment', 'https://google.com', '2020-02-29', 'Grade 8 English Material Notes');
+INSERT INTO `material` (`title`, `author`, `type`, `url`, `assigned_date`, `notes`) VALUES ('Grade 8 Math Material', 'Tiger Woods', 'Math Assignment', 'https://bing.com', '2020-03-01', 'Grade 8 Math Material Notes');
+INSERT INTO `material` (`title`, `author`, `type`, `url`, `assigned_date`, `notes`) VALUES ('Grade 9 English Material', 'Baby Yoda', 'Reading Assignment', 'https://google.com', '2020-02-29', 'Grade 9 English Material Notes');
+INSERT INTO `material` (`title`, `author`, `type`, `url`, `assigned_date`, `notes`) VALUES ('Grade 9 Math Material', 'Tiger Woods', 'Math Assignment', 'https://bing.com', '2020-03-01', 'Grade 9 Math Material Notes');
 
 INSERT INTO `assign` (`meet_id`, `material_id`) VALUES (100, 12);
 INSERT INTO `assign` (`meet_id`, `material_id`) VALUES (102, 13);
