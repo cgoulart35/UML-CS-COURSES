@@ -37,10 +37,18 @@
 			if ($userPage_id == $current_id || ($_SESSION['isParent'] && $in_all_childen_of_parent) || $_SESSION['isAdmin']) {
 				//if id is the logged in student, show student page; or if logged in as admin or if logged in as parent of child
 				
-				$userPage_name_query = "SELECT name FROM users WHERE id='$userPage_id' LIMIT 1";
-				$userPage_name_result = mysqli_query($db2, $userPage_name_query);
-				$userPage_name_arr = mysqli_fetch_assoc($userPage_name_result);
-				$userPage_name = $userPage_name_arr['name'];
+				$userPage_query = "SELECT * FROM users WHERE id='$userPage_id' LIMIT 1";
+				$userPage_result = mysqli_query($db2, $userPage_query);
+				$userPage_arr = mysqli_fetch_assoc($userPage_result);
+				
+				$userPage_grade_query = "SELECT grade FROM students WHERE student_id='$userPage_id' LIMIT 1";
+				$userPage_grade_result = mysqli_query($db2, $userPage_grade_query);
+				$userPage_grade_arr = mysqli_fetch_assoc($userPage_grade_result);
+				
+				$userPage_name = $userPage_arr['name'];
+				$userPage_grade = $userPage_grade_arr['grade'];
+				$userPage_phone = $userPage_arr['phone'];
+				$userPage_email = $userPage_arr['email'];
 				
 				$headerOutput = "<h1> Welcome $current_name!</h1>
 								<h3><p> $userPage_name's student page:</p></h3>";
@@ -58,19 +66,19 @@
 							<?php include ('errors.php'); ?>
 							<div class="input-group">
 								<label>Update Name:		</label>
-								<input type="text" name="name">
+								<input type="text" name="name" placeholder="<?php echo $userPage_name ?>">
 							</div>
 							<div class="input-group">
 								<label>Update Grade:	</label>
-								<input type="number" name="grade">
+								<input type="number" name="grade" placeholder="<?php echo $userPage_grade ?>">
 							</div>
 							<div class="input-group">
 								<label>Update Phone:	</label>
-								<input type="text" name="phone">
+								<input type="text" name="phone" placeholder="<?php echo $userPage_phone ?>">
 							</div>
 							<div class="input-group">
 								<label>Update Email:	</label>
-								<input type="email" name="email">
+								<input type="email" name="email" placeholder="<?php echo $userPage_email ?>">
 							</div>
 							<div class="input-group">
 								<label>Update Password:	</label>
@@ -138,103 +146,252 @@
 					}
 				}
 				
-				//show meetings student is mentor of
-				//view & drop option for each
+				$userPage_grade_query = "SELECT grade FROM students WHERE student_id = '$userPage_id' LIMIT 1";
+				$userPage_grade_result = mysqli_query($db2, $userPage_grade_query);
+				$userPage_grade_arr = mysqli_fetch_assoc($userPage_grade_result);
+				$userPage_grade = $userPage_grade_arr['grade'];
 				
-				?>
-				<html>
-						<h2>Meetings <?php echo $userPage_name ?> is a mentor of:</h2>
-						<table border="1" style="width:75%">
-						  <tr>
-							<th>ID:</th>
-							<th>Name:</th> 
-							<th>Date:</th>
-							<th>Time Slot:</th>
-							<th>Capacity:</th>
-							<th>Announcement:</th>
-							<th>View Meeting:</th>
-							<th>Drop Meeting:</th>
-						  </tr>
-				</html>
-				<?php
+				$userPage_group_query = "SELECT * FROM groups WHERE description = '$userPage_grade' LIMIT 1";
+				$userPage_group_result = mysqli_query($db2, $userPage_group_query);
+				$userPage_group_arr = mysqli_fetch_assoc($userPage_group_result);
 				
-				$select_meetings_mentor_of = "SELECT * FROM meetings INNER JOIN enroll2 ON enroll2.meet_id = meetings.meet_id WHERE mentor_id = '$userPage_id'";
-				$select_meetings_mentor_of_result = mysqli_query($db2, $select_meetings_mentor_of);
+				$userPage_group_id = $userPage_group_arr['group_id'];
+				$userPage_mentor_grade_req = $userPage_group_arr['mentor_grade_req'];
+				$userPage_mentee_grade_req = $userPage_group_arr['mentee_grade_req'];
 				
-				while($row = $select_meetings_mentor_of_result->fetch_assoc()) {
-					$row_id = $row['meet_id'];
-					$row_name = $row['meet_name'];
-					$row_date = $row['date'];
-					$row_time_id = $row['time_slot_id'];
-					$row_capacity = $row['capacity'];
-					$row_announcement = $row['announcement'];
+				if ($userPage_mentee_grade_req != null) {
 					
-					$time_slot_query = "SELECT * FROM time_slot WHERE time_slot_id = '$row_time_id' LIMIT 1";
-					$time_slot_result = mysqli_query($db2, $time_slot_query);
-					$time_slot_arr = mysqli_fetch_assoc($time_slot_result);
-					$row_time_slot_day = $time_slot_arr['day_of_the_week'];
-					$row_time_slot_start = $time_slot_arr['start_time'];
-					$row_time_slot_end = $time_slot_arr['end_time'];
+					//show meetings student is mentor of
+					//view & drop option for each
+					
+					?>
+					<html>
+							<h2>Meetings <?php echo $userPage_name ?> is a mentor of:</h2>
+							<table border="1" style="width:75%">
+							  <tr>
+								<th>ID:</th>
+								<th>Name:</th> 
+								<th>Date:</th>
+								<th>Time Slot:</th>
+								<th>Capacity:</th>
+								<th>Announcement:</th>
+								<th>View Meeting:</th>
+								<th>Drop Meeting:</th>
+								<th>Drop Meetings (by name):</th>
+							  </tr>
+					</html>
+					<?php
+					
+					$select_meetings_mentor_of = "SELECT * FROM meetings INNER JOIN enroll2 ON enroll2.meet_id = meetings.meet_id WHERE mentor_id = '$userPage_id'";
+					$select_meetings_mentor_of_result = mysqli_query($db2, $select_meetings_mentor_of);
+					
+					while($row = $select_meetings_mentor_of_result->fetch_assoc()) {
+						$row_id = $row['meet_id'];
+						$row_name = $row['meet_name'];
+						$row_date = $row['date'];
+						$row_time_id = $row['time_slot_id'];
+						$row_capacity = $row['capacity'];
+						$row_announcement = $row['announcement'];
+						
+						$time_slot_query = "SELECT * FROM time_slot WHERE time_slot_id = '$row_time_id' LIMIT 1";
+						$time_slot_result = mysqli_query($db2, $time_slot_query);
+						$time_slot_arr = mysqli_fetch_assoc($time_slot_result);
+						$row_time_slot_day = $time_slot_arr['day_of_the_week'];
+						$row_time_slot_start = $time_slot_arr['start_time'];
+						$row_time_slot_end = $time_slot_arr['end_time'];
+						
+						echo "<tr>
+								<td>$row_id</th>
+								<td>$row_name</th> 
+								<td>$row_date</th>
+								<td>$row_time_slot_day $row_time_slot_start - $row_time_slot_end</th>
+								<td>$row_capacity</th>
+								<td>$row_announcement</th>
+								<td><a href=meeting.php?mid=$row_id> View </a></th>
+								<td><a href=dropAsMentor.php?mid=$row_id&sid=$userPage_id> Drop </a></th>
+								<td><a href=dropMeetingsAsMentor.php?mid=$row_id&sid=$userPage_id> Drop Meetings </a></th>
+							</tr>";
+					}
 					
 					echo "<tr>
-							<td>$row_id</th>
-							<td>$row_name</th> 
-							<td>$row_date</th>
-							<td>$row_time_slot_day $row_time_slot_start - $row_time_slot_end</th>
-							<td>$row_capacity</th>
-							<td>$row_announcement</th>
-							<td><a href=meeting.php?mid=$row_id> View </a></th>
-							<td><a href=dropAsMentor.php?mid=$row_id&sid=$userPage_id> Drop </a></th>
+							<a href=dropAllAsMentor.php?sid=$userPage_id> Drop All Meetings as Mentor </a>
 						</tr>";
+					
+					//show meetings student can be mentor of
+					//view & add option for each
+					
+					?>
+					<html>
+							</table>
+							<h2>Possible meetings for <?php echo $userPage_name ?> to be mentor of:</h2>
+							<h5>Your request will not go through if there are already 3 mentors.</h5>
+							<table border="1" style="width:75%">
+							  <tr>
+								<th>ID:</th>
+								<th>Name:</th> 
+								<th>Date:</th>
+								<th>Time Slot:</th>
+								<th>Capacity:</th>
+								<th>Announcement:</th>
+								<th>View Meeting:</th>
+								<th>Add Meeting:</th>
+								<th>Add Meetings (by name):</th>
+							  </tr>
+					</html>
+					<?php
+					
+					$possible_meetings_mentor_of = "SELECT * FROM meetings WHERE group_id IN (SELECT group_id FROM groups WHERE description <= '$userPage_mentee_grade_req') AND meet_id NOT IN (SELECT meet_id FROM enroll2 WHERE mentor_id = '$userPage_id')";
+					$possible_meetings_mentor_of_result = mysqli_query($db2, $possible_meetings_mentor_of);
+					
+					while($row = $possible_meetings_mentor_of_result->fetch_assoc()) {
+						$row_id = $row['meet_id'];
+						$row_name = $row['meet_name'];
+						$row_date = $row['date'];
+						$row_time_id = $row['time_slot_id'];
+						$row_capacity = $row['capacity'];
+						$row_announcement = $row['announcement'];
+						
+						$time_slot_query = "SELECT * FROM time_slot WHERE time_slot_id = '$row_time_id' LIMIT 1";
+						$time_slot_result = mysqli_query($db2, $time_slot_query);
+						$time_slot_arr = mysqli_fetch_assoc($time_slot_result);
+						$row_time_slot_day = $time_slot_arr['day_of_the_week'];
+						$row_time_slot_start = $time_slot_arr['start_time'];
+						$row_time_slot_end = $time_slot_arr['end_time'];
+						
+						echo "<tr>
+								<td>$row_id</th>
+								<td>$row_name</th> 
+								<td>$row_date</th>
+								<td>$row_time_slot_day $row_time_slot_start - $row_time_slot_end</th>
+								<td>$row_capacity</th>
+								<td>$row_announcement</th>
+								<td><a href=meeting.php?mid=$row_id> View </a></th>
+								<td><a href=addAsMentor.php?mid=$row_id&sid=$userPage_id> Add </a></th>
+								<td><a href=addMeetingsAsMentor.php?mid=$row_id&sid=$userPage_id> Add Meetings </a></th>
+							</tr>";
+					}
 				}
 				
-				//show meetings student is mentee of
-				//view & drop option for each
-				?>
-				<html>
-						</table>
-						<h2>Meetings <?php echo $userPage_name ?> is a mentee of:</h2>
-						<table border="1" style="width:75%">
-						  <tr>
-							<th>ID:</th>
-							<th>Name:</th> 
-							<th>Date:</th>
-							<th>Time Slot:</th>
-							<th>Capacity:</th>
-							<th>Announcement:</th>
-							<th>View:</th>
-							<th>Drop:</th>
-						  </tr>
-				</html>
-				<?php
+				echo "<tr>
+						<a href=addAllAsMentor.php?sid=$userPage_id> Add All Meetings as Mentor </a>
+					</tr>";
 				
-				$select_meetings_mentee_of = "SELECT * FROM meetings INNER JOIN enroll ON enroll.meet_id = meetings.meet_id WHERE mentee_id = '$userPage_id'";
-				$select_meetings_mentee_of_result = mysqli_query($db2, $select_meetings_mentee_of);
-				
-				while($row = $select_meetings_mentee_of_result->fetch_assoc()) {
-					$row_id = $row['meet_id'];
-					$row_name = $row['meet_name'];
-					$row_date = $row['date'];
-					$row_time_id = $row['time_slot_id'];
-					$row_capacity = $row['capacity'];
-					$row_announcement = $row['announcement'];
+				if ($userPage_mentor_grade_req != null) {
+						
+					//show meetings student is mentee of
+					//view & drop option for each
 					
-					$time_slot_query = "SELECT * FROM time_slot WHERE time_slot_id = '$row_time_id' LIMIT 1";
-					$time_slot_result = mysqli_query($db2, $time_slot_query);
-					$time_slot_arr = mysqli_fetch_assoc($time_slot_result);
-					$row_time_slot_day = $time_slot_arr['day_of_the_week'];
-					$row_time_slot_start = $time_slot_arr['start_time'];
-					$row_time_slot_end = $time_slot_arr['end_time'];
+					?>
+					<html>
+							</table>
+							<h2>Meetings <?php echo $userPage_name ?> is a mentee of:</h2>
+							<table border="1" style="width:75%">
+							  <tr>
+								<th>ID:</th>
+								<th>Name:</th> 
+								<th>Date:</th>
+								<th>Time Slot:</th>
+								<th>Capacity:</th>
+								<th>Announcement:</th>
+								<th>View Meeting:</th>
+								<th>Drop Meeting:</th>
+								<th>Drop Meetings (by name):</th>
+							  </tr>
+					</html>
+					<?php
+					
+					
+					$select_meetings_mentee_of = "SELECT * FROM meetings INNER JOIN enroll ON enroll.meet_id = meetings.meet_id WHERE mentee_id = '$userPage_id'";
+					$select_meetings_mentee_of_result = mysqli_query($db2, $select_meetings_mentee_of);
+					
+					while($row = $select_meetings_mentee_of_result->fetch_assoc()) {
+						$row_id = $row['meet_id'];
+						$row_name = $row['meet_name'];
+						$row_date = $row['date'];
+						$row_time_id = $row['time_slot_id'];
+						$row_capacity = $row['capacity'];
+						$row_announcement = $row['announcement'];
+						
+						$time_slot_query = "SELECT * FROM time_slot WHERE time_slot_id = '$row_time_id' LIMIT 1";
+						$time_slot_result = mysqli_query($db2, $time_slot_query);
+						$time_slot_arr = mysqli_fetch_assoc($time_slot_result);
+						$row_time_slot_day = $time_slot_arr['day_of_the_week'];
+						$row_time_slot_start = $time_slot_arr['start_time'];
+						$row_time_slot_end = $time_slot_arr['end_time'];
+						
+						echo "<tr>
+								<td>$row_id</th>
+								<td>$row_name</th> 
+								<td>$row_date</th>
+								<td>$row_time_slot_day $row_time_slot_start - $row_time_slot_end</th>
+								<td>$row_capacity</th>
+								<td>$row_announcement</th>
+								<td><a href=meeting.php?mid=$row_id> View </a></th>
+								<td><a href=dropAsMentee.php?mid=$row_id&sid=$userPage_id> Drop </a></th>
+								<td><a href=dropMeetingsAsMentee.php?mid=$row_id&sid=$userPage_id> Drop Meetings </a></th>
+							</tr>";
+					}
 					
 					echo "<tr>
-							<td>$row_id</th>
-							<td>$row_name</th> 
-							<td>$row_date</th>
-							<td>$row_time_slot_day $row_time_slot_start - $row_time_slot_end</th>
-							<td>$row_capacity</th>
-							<td>$row_announcement</th>
-							<td><a href=meeting.php?mid=$row_id> View </a></th>
-							<td><a href=dropAsMentee.php?mid=$row_id&sid=$userPage_id> Drop </a></th>
+							<a href=dropAllAsMentee.php?sid=$userPage_id> Drop All Meetings as Mentee</a>
+						</tr>";
+						
+					//show meetings student can be mentee of
+					//view & add option for each
+					
+					?>
+					<html>
+							</table>
+							<h2>Possible meetings for <?php echo $userPage_name ?> to be mentee of:</h2>
+							<h5>Your request will not go through if there are already 6 mentees.</h5>
+							<table border="1" style="width:75%">
+							  <tr>
+								<th>ID:</th>
+								<th>Name:</th> 
+								<th>Date:</th>
+								<th>Time Slot:</th>
+								<th>Capacity:</th>
+								<th>Announcement:</th>
+								<th>View Meeting:</th>
+								<th>Add Meeting:</th>
+								<th>Add Meetings (by name):</th>
+							  </tr>
+					</html>
+					<?php
+					
+					$possible_meetings_mentee_of = "SELECT * FROM meetings WHERE group_id = '$userPage_group_id' AND meet_id NOT IN (SELECT meet_id FROM enroll WHERE mentee_id = '$userPage_id')";
+					$possible_meetings_mentee_of_result = mysqli_query($db2, $possible_meetings_mentee_of);
+					
+					while($row = $possible_meetings_mentee_of_result->fetch_assoc()) {
+						$row_id = $row['meet_id'];
+						$row_name = $row['meet_name'];
+						$row_date = $row['date'];
+						$row_time_id = $row['time_slot_id'];
+						$row_capacity = $row['capacity'];
+						$row_announcement = $row['announcement'];
+						
+						$time_slot_query = "SELECT * FROM time_slot WHERE time_slot_id = '$row_time_id' LIMIT 1";
+						$time_slot_result = mysqli_query($db2, $time_slot_query);
+						$time_slot_arr = mysqli_fetch_assoc($time_slot_result);
+						$row_time_slot_day = $time_slot_arr['day_of_the_week'];
+						$row_time_slot_start = $time_slot_arr['start_time'];
+						$row_time_slot_end = $time_slot_arr['end_time'];
+						
+						echo "<tr>
+								<td>$row_id</th>
+								<td>$row_name</th> 
+								<td>$row_date</th>
+								<td>$row_time_slot_day $row_time_slot_start - $row_time_slot_end</th>
+								<td>$row_capacity</th>
+								<td>$row_announcement</th>
+								<td><a href=meeting.php?mid=$row_id> View </a></th>
+								<td><a href=addAsMentee.php?mid=$row_id&sid=$userPage_id> Add </a></th>
+								<td><a href=addMeetingsAsMentee.php?mid=$row_id&sid=$userPage_id> Add Meetings </a></th>
+							</tr>";
+					}
+					
+					echo "<tr>
+							<a href=addAllAsMentee.php?sid=$userPage_id> Add All Meetings as Mentee </a>
 						</tr>";
 				}
 				
@@ -245,43 +402,8 @@
 					</div>
 				</html>
 				<?php
-				
-				
-				
-				
-				
-				
-				
-				//assert grade level requirements!
-				
-				//show possible meetings for student to be mentor of
-				//add option for each (says rest of year option, but can only have 1 meeting at a time with same ID???)
-				
-				//get grade lvl and use it to get group student is in and that is where description = student grade
-				//display meetings with group ids that have a description of my mentee_grade_req or below
-				
-				//$possible_meetings_mentor_of = "SELECT * FROM meetings INNER JOIN enroll2 ON enroll2.meet_id = meetings.meet_id WHERE mentor_id != '$userPage_id'";
-				
-				
-				
-				
-				
-				//show possible meetings for student to be mentee of
-				//add option for each (says rest of year option, but can only have 1 meeting at a time with same ID???)
-				
-				//get grade lvl and use it to get group student is in and that is where description = student grade
-				//display meetings with that group id
-				
-				//$possible_meetings_mentor_of = "SELECT * FROM meetings INNER JOIN enroll ON enroll.meet_id = meetings.meet_id WHERE mentee_id != '$userPage_id'";
-				
-				
-					
-					
-				
-				
-				
-				
-				
+
+				//add option for each (says rest of year option, but can only have 1 meeting at a time with same ID???)				
 			}
 			else {
 				?>

@@ -5,6 +5,8 @@
 	//delete row from enroll2 with student id and meeting id if logged in as student, student's parent, or admin
 	if (isset($_GET['mid']) && isset($_GET['sid']) && isset($_SESSION['user'])) {
 		
+		$db2 = mysqli_connect('localhost', 'root', '', 'db2');
+		
 		$current_user = $_SESSION['user'];
 		$current_id = $current_user['id'];
 		
@@ -22,14 +24,19 @@
 		}
 		
 		if ($current_id == $sid || ($_SESSION['isParent'] && $in_all_childen_of_parent) || $_SESSION['isAdmin']) {
-			
-			$db2 = mysqli_connect('localhost', 'root', '', 'db2');
-			
 			$drop_meeting_as_mentor = "DELETE FROM enroll2 WHERE mentor_id = '$sid' AND meet_id = '$mid'";
 			mysqli_query($db2, $drop_meeting_as_mentor);
 			
+			//check to see if still present in enroll2 table, if so keep in mentors, otherwise delete
+			$is_still_mentor_query = "SELECT * FROM enroll2 WHERE mentor_id = '$sid' LIMIT 1";
+			$result = mysqli_query($db2, $is_still_mentor_query);
+			$is_still_mentor = mysqli_fetch_assoc($result);
+			
+			if ($is_still_mentor == null) {
+				$drop_mentor = "DELETE FROM mentors WHERE mentor_id = '$sid'";
+				mysqli_query($db2, $drop_mentor);
+			}
 		}
-		
 	}
 	
 	header('Location: student.php?id='. $sid);	

@@ -3,7 +3,7 @@
 	session_start();
 	
 	//delete row from enroll with student id and meeting id if logged in as student, student's parent, or admin
-	if (isset($_GET['mid']) && isset($_GET['sid']) && isset($_SESSION['user'])) {
+	if (isset($_GET['sid']) && isset($_SESSION['user'])) {
 		
 		$db2 = mysqli_connect('localhost', 'root', '', 'db2');
 		
@@ -24,18 +24,12 @@
 		}
 		
 		if ($current_id == $sid || ($_SESSION['isParent'] && $in_all_childen_of_parent) || $_SESSION['isAdmin']) {
-			$drop_meeting_as_mentee = "DELETE FROM enroll WHERE mentee_id = '$sid' AND meet_id = '$mid'";
+		
+			$drop_meeting_as_mentee = "DELETE FROM enroll WHERE mentee_id = '$sid'";
 			mysqli_query($db2, $drop_meeting_as_mentee);
 			
-			//check to see if still present in enroll table, if so keep in mentees, otherwise delete
-			$is_still_mentee_query = "SELECT * FROM enroll WHERE mentee_id = '$sid' LIMIT 1";
-			$result = mysqli_query($db2, $is_still_mentee_query);
-			$is_still_mentee = mysqli_fetch_assoc($result);
-			
-			if ($is_still_mentee == null) {
-				$drop_mentee = "DELETE FROM mentees WHERE mentee_id = '$sid'";
-				mysqli_query($db2, $drop_mentee);
-			}
+			$drop_mentee = "DELETE FROM mentees WHERE mentee_id = '$sid'";
+			mysqli_query($db2, $drop_mentee);
 		}
 	}
 	

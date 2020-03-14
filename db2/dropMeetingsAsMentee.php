@@ -24,8 +24,15 @@
 		}
 		
 		if ($current_id == $sid || ($_SESSION['isParent'] && $in_all_childen_of_parent) || $_SESSION['isAdmin']) {
-			$drop_meeting_as_mentee = "DELETE FROM enroll WHERE mentee_id = '$sid' AND meet_id = '$mid'";
-			mysqli_query($db2, $drop_meeting_as_mentee);
+			
+			$select_meetings_with_same_name = "SELECT meet_id FROM meetings WHERE group_id = (SELECT group_id FROM meetings WHERE meet_id = '$mid' LIMIT 1) AND meet_name = (SELECT meet_name FROM meetings WHERE meet_id = '$mid')";
+			$result = mysqli_query($db2, $select_meetings_with_same_name);
+			
+			while($meeting = mysqli_fetch_assoc($result)) {
+				$new_mid = $meeting['meet_id'];
+				$drop_meeting_as_mentee = "DELETE FROM enroll WHERE mentee_id = '$sid' AND meet_id = '$new_mid'";
+				mysqli_query($db2, $drop_meeting_as_mentee);
+			}
 			
 			//check to see if still present in enroll table, if so keep in mentees, otherwise delete
 			$is_still_mentee_query = "SELECT * FROM enroll WHERE mentee_id = '$sid' LIMIT 1";

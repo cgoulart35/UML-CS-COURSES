@@ -27,10 +27,13 @@
 			if ($userPage_id == $current_id || $_SESSION['isAdmin']) {
 				//if id is the logged in parent, show parents page; or if logged in as admin and we know its a parent id
 				
-				$userPage_name_query = "SELECT name FROM users WHERE id='$userPage_id' LIMIT 1";
-				$userPage_name_result = mysqli_query($db2, $userPage_name_query);
-				$userPage_name_arr = mysqli_fetch_assoc($userPage_name_result);
-				$userPage_name = $userPage_name_arr['name'];
+				$userPage_query = "SELECT * FROM users WHERE id='$userPage_id' LIMIT 1";
+				$userPage_result = mysqli_query($db2, $userPage_query);
+				$userPage_arr = mysqli_fetch_assoc($userPage_result);
+				
+				$userPage_name = $userPage_arr['name'];
+				$userPage_phone = $userPage_arr['phone'];
+				$userPage_email = $userPage_arr['email'];
 				
 				$headerOutput = "<h1> Welcome $current_name!</h1>
 								<h3><p> $userPage_name's parent page:</p></h3>";
@@ -48,15 +51,15 @@
 							<?php include ('errors.php'); ?>
 							<div class="input-group">
 								<label>Update Name:		</label>
-								<input type="text" name="name">
+								<input type="text" name="name" placeholder="<?php echo $userPage_name ?>">
 							</div>
 							<div class="input-group">
 								<label>Update Phone:	</label>
-								<input type="text" name="phone">
+								<input type="text" name="phone" placeholder="<?php echo $userPage_phone ?>">
 							</div>
 							<div class="input-group">
 								<label>Update Email:	</label>
-								<input type="email" name="email">
+								<input type="email" name="email" placeholder="<?php echo $userPage_email ?>">
 							</div>
 							<div class="input-group">
 								<label>Update Password:	</label>
