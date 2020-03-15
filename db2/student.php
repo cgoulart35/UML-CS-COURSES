@@ -270,11 +270,11 @@
 								<td><a href=addMeetingsAsMentor.php?mid=$row_id&sid=$userPage_id> Add Meetings </a></th>
 							</tr>";
 					}
-				}
-				
-				echo "<tr>
+					
+					echo "<tr>
 						<a href=addAllAsMentor.php?sid=$userPage_id> Add All Meetings as Mentor </a>
 					</tr>";
+				}
 				
 				if ($userPage_mentor_grade_req != null) {
 						
@@ -402,8 +402,7 @@
 					</div>
 				</html>
 				<?php
-
-				//add option for each (says rest of year option, but can only have 1 meeting at a time with same ID???)				
+			
 			}
 			else {
 				?>
