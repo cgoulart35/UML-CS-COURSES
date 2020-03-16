@@ -159,6 +159,22 @@
 				$userPage_mentor_grade_req = $userPage_group_arr['mentor_grade_req'];
 				$userPage_mentee_grade_req = $userPage_group_arr['mentee_grade_req'];
 				
+				//ONLY SHOW POSSIBLE MEETINGS THAT ARE IN THE FUTURE BY THURSDAY
+				$append_future_dates_query = "";
+				date_default_timezone_set('America/New_York');
+				$current_date = date('Y-m-d');
+				$thursday_date = date( 'Y-m-d', strtotime( 'thursday this week' ) );
+				//if date is before this weeks thurday; show meetings with dates this saturday and on
+				if ($current_date < $thursday_date) {
+					$this_saturday_date = date( 'Y-m-d', strtotime( 'saturday this week' ) );
+					$append_future_dates_query = "AND date >= '$this_saturday_date'";
+				}
+				//if date is after or is this thursday; show meetings with dates next saturday and on
+				else {
+					$next_saturday_date = date( 'Y-m-d', strtotime( 'saturday next week' ) );
+					$append_future_dates_query = "AND date >= '$next_saturday_date'"; 
+				}
+				
 				if ($userPage_mentee_grade_req != null) {
 					
 					//show meetings student is mentor of
@@ -240,7 +256,7 @@
 					</html>
 					<?php
 					
-					$possible_meetings_mentor_of = "SELECT * FROM meetings WHERE group_id IN (SELECT group_id FROM groups WHERE description <= '$userPage_mentee_grade_req') AND meet_id NOT IN (SELECT meet_id FROM enroll2 WHERE mentor_id = '$userPage_id')";
+					$possible_meetings_mentor_of = "SELECT * FROM meetings WHERE group_id IN (SELECT group_id FROM groups WHERE description <= '$userPage_mentee_grade_req') AND meet_id NOT IN (SELECT meet_id FROM enroll2 WHERE mentor_id = '$userPage_id')" . $append_future_dates_query;
 					$possible_meetings_mentor_of_result = mysqli_query($db2, $possible_meetings_mentor_of);
 					
 					while($row = $possible_meetings_mentor_of_result->fetch_assoc()) {
@@ -359,7 +375,7 @@
 					</html>
 					<?php
 					
-					$possible_meetings_mentee_of = "SELECT * FROM meetings WHERE group_id = '$userPage_group_id' AND meet_id NOT IN (SELECT meet_id FROM enroll WHERE mentee_id = '$userPage_id')";
+					$possible_meetings_mentee_of = "SELECT * FROM meetings WHERE group_id = '$userPage_group_id' AND meet_id NOT IN (SELECT meet_id FROM enroll WHERE mentee_id = '$userPage_id')" . $append_future_dates_query;
 					$possible_meetings_mentee_of_result = mysqli_query($db2, $possible_meetings_mentee_of);
 					
 					while($row = $possible_meetings_mentee_of_result->fetch_assoc()) {

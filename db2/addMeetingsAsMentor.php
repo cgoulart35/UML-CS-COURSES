@@ -23,7 +23,46 @@
 			}
 		}
 		
-		if ($current_id == $sid || ($_SESSION['isParent'] && $in_all_childen_of_parent) || $_SESSION['isAdmin']) {
+		//CHECK TO SEE IF PROVIDED MID IS IN THE LIST OF POSSIBLE MEETINGS AS A MENTOR
+		$userPage_grade_query = "SELECT grade FROM students WHERE student_id = '$sid' LIMIT 1";
+		$userPage_grade_result = mysqli_query($db2, $userPage_grade_query);
+		$userPage_grade_arr = mysqli_fetch_assoc($userPage_grade_result);
+		$userPage_grade = $userPage_grade_arr['grade'];
+		
+		$userPage_group_query = "SELECT * FROM groups WHERE description = '$userPage_grade' LIMIT 1";
+		$userPage_group_result = mysqli_query($db2, $userPage_group_query);
+		$userPage_group_arr = mysqli_fetch_assoc($userPage_group_result);
+		
+		$userPage_mentee_grade_req = $userPage_group_arr['mentee_grade_req'];
+		
+		$append_future_dates_query = "";
+		date_default_timezone_set('America/New_York');
+		$current_date = date('Y-m-d');
+		$thursday_date = date( 'Y-m-d', strtotime( 'thursday this week' ) );
+		
+		//if date is before this weeks thurday; show meetings with dates this saturday and on
+		if ($current_date < $thursday_date) {
+			$this_saturday_date = date( 'Y-m-d', strtotime( 'saturday this week' ) );
+			$append_future_dates_query = "AND date >= '$this_saturday_date'";
+		}
+		
+		//if date is after or is this thursday; show meetings with dates next saturday and on
+		else {
+			$next_saturday_date = date( 'Y-m-d', strtotime( 'saturday next week' ) );
+			$append_future_dates_query = "AND date >= '$next_saturday_date'"; 
+		}
+		
+		$possible_meetings_mentor_of = "SELECT meet_id FROM meetings WHERE group_id IN (SELECT group_id FROM groups WHERE description <= '$userPage_mentee_grade_req') AND meet_id NOT IN (SELECT meet_id FROM enroll2 WHERE mentor_id = '$sid')" . $append_future_dates_query;
+		$possible_meetings_mentor_of_result = mysqli_query($db2, $possible_meetings_mentor_of);
+		$is_possible_meeting = False;
+		while($meeting = mysqli_fetch_assoc($possible_meetings_mentor_of_result)) {
+			if (in_array($mid, $meeting)) {
+				$is_possible_meeting = True;
+				break;
+			}
+		}
+		
+		if (($current_id == $sid || ($_SESSION['isParent'] && $in_all_childen_of_parent) || $_SESSION['isAdmin']) && $is_possible_meeting) {
 			
 			//if there are already 3 mentors, don't add any
 			$mentor_count_query = "SELECT count(mentor_id) FROM enroll2 WHERE meet_id = '$mid' LIMIT 1";

@@ -27,7 +27,7 @@ these actions as a user using the web interface:
 
      CODE LOCATION:
         registerStudent.php, registerParent.php, registerAdmin.php, student.php (update info
-        lines 65-146), parent.php (update info and child's info lines 50-193), and in
+        lines 65-147), parent.php (update info and child's info lines 50-193), and in
         admin.php (update info 68-139 and other users' info 189-270)
      INSTRUCTIONS:
         To register as a specific user, click on register the type of user you want to
@@ -52,7 +52,7 @@ these actions as a user using the web interface:
      Group7, and so on.
 
      CODE LOCATION:
-        student.php (lines 149-404), dropAsMentor.php, dropAsMentee.php, dropMeetingsAsMentor.php,
+        student.php (lines 149-420), dropAsMentor.php, dropAsMentee.php, dropMeetingsAsMentor.php,
         dropMeetingsAsMentee.php, dropAllAsMentor.php, dropAllAsMentee.php, addAsMentor.php,
         addAsMentee.php, addMeetingsAsMentor.php, addMeetingsAsMentee.php, addAllAsMentor.php,
         addAllAsMentee.php, db2.sql (group requirements lines 325-331)
@@ -79,7 +79,7 @@ these actions as a user using the web interface:
      any time. Mentees and mentors can also be assigned to meetings by admin.
 
      CODE LOCATION:
-        student.php (lines 149-404), dropAsMentor.php, dropAsMentee.php, dropMeetingsAsMentor.php,
+        student.php (lines 149-420), dropAsMentor.php, dropAsMentee.php, dropMeetingsAsMentor.php,
         dropMeetingsAsMentee.php, dropAllAsMentor.php, dropAllAsMentee.php, addAsMentor.php,
         addAsMentee.php, addMeetingsAsMentor.php, addMeetingsAsMentee.php, addAllAsMentor.php,
         addAllAsMentee.php, parent.php (assign meetings by editing children lines 123-193), and in
@@ -90,14 +90,16 @@ these actions as a user using the web interface:
         meetings with the same name (for the rest of the year), or add or drop all meetings that
         are available in the tables in general. Notice the warnings displayed on the possible
         meetings tables; if there are already 3 mentors or 6 mentees, your add request will not
-        go through. Mentors and mentees can also be assigned by admins and parents (children) by
-        clicking on the Edit Student button for the desired student, and then adding the meeting(s).
+        go through. Previous meetings will not show up as possible meetings, but they do show up in
+        enrolled meetings. Future meetings show up, however you can only add the current week's
+        meetings by Thursday. Mentors and mentees can also be assigned by admins and parents (children)
+        by clicking on the Edit Student button for the desired student, and then adding the meeting(s).
 
   4. A mentor will be able to see list of other mentors and all mentees of the meetings he/she
      is mentoring including names and email addresses.
 
      CODE LOCATION:
-        student.php (view meeting buttons within lines 149-404), meeting.php (view mentors and mentees
+        student.php (view meeting buttons within lines 149-420), meeting.php (view mentors and mentees
         if mentor, parent of mentor, or admin lines 221-268)
      INSTRUCTIONS:
         Again, you can also click on view meeting to see the
@@ -119,11 +121,12 @@ these actions as a user using the web interface:
      meeting of the group he/she is in.
 
      CODE LOCATION: admin.php (post buttons lines 141-187), meeting.php (post materials lines 105-179 &
-        view materials lines 181-219), student.php (view meeting buttons within lines 149-404)
+        view materials lines 181-219), student.php (view meeting buttons within lines 149-420)
      INSTRUCTIONS:
         Logged in as an admin, click on post materials for a certain meeting. You can also view meetings
-        off a student page logged in as an admin and post materials that way. Students that are mentees
-        of meetings will be able to see posted materials by clicking view meeting.
+        off a student page when logged in as an admin and post materials that way. Admins can post materials
+        to all current and future meetings whenever he/she wants to. Students of meetings
+        will be able to see posted materials by clicking view meeting.
 
 Notes:
   - We decided to use CSS to make out interface a little easier to interpret the content
