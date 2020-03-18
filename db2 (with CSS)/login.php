@@ -4,22 +4,22 @@
 						<h3><p> Login Page:</p></h3>";
 		include ('header.php'); 
 	?>
-	<div>
+	<div class="page">
 		<form method="post" action="login.php">
 			<div>
 				<h1><a href="index.php"> Home </a></h1>
 			</div>
 			<?php include ('errors.php'); ?>
-			<div>
+			<div class="input-group">
 				<label>Email:	</label>
 				<input type="email" name="email">
 			</div>
-			<div>
+			<div class="input-group">
 				<label>Password:</label>
 				<input type="password" name="password">
 			</div>
-			<div>
-				<button type="submit" name="sign_in">Sign In</button>
+			<div class="input-group">
+				<button type="submit" class="btn" name="sign_in">Sign In</button>
 			</div>
 			<br>
 			<div>

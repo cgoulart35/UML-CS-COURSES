@@ -1,37 +1,37 @@
 <html>
 	<?php
 		$headerOutput = "<h1> Welcome to Database II Project!</h1>
-						<h3><p> Register as a parent:</p></h3>";
+						<h3><p> Register as an admin:</p></h3>";
 		include ('header.php'); 
 	?>
-	<div>
-		<form method="post" action="registerParent.php">
+	<div class="page">
+		<form method="post" action="registerAdmin.php">
 			<?php include ('errors.php'); ?>
 			<div>
 				<h1><a href="index.php"> Home </a></h1>
 			</div>
-			<div>
+			<div class="input-group">
 				<label>Name:			</label>
 				<input type="text" name="name">
 			</div>
-			<div>
+			<div class="input-group">
 				<label>Phone:			</label>
 				<input type="text" name="phone">
 			</div>
-			<div>
+			<div class="input-group">
 				<label>Email:			</label>
 				<input type="email" name="email">
 			</div>
-			<div>
+			<div class="input-group">
 				<label>Password:		</label>
 				<input type="password" name="password_1">
 			</div>
-			<div>
+			<div class="input-group">
 				<label>Confirm password:</label>
 				<input type="password" name="password_2">
 			</div>
-			<div>
-				<button type="submit" name="reg_user">Sign Up</button>
+			<div class="input-group">
+				<button type="submit" class="btn" name="reg_user">Sign Up</button>
 			</div>
 			<br>
 			<div>
@@ -67,25 +67,25 @@
 		// CHECK IF EMAIL ALREADY EXISTS AS A USER
 		$email_exists_query = "SELECT * FROM users WHERE email = '$email' LIMIT 1";
 		$result = mysqli_query($db2, $email_exists_query);
-		$parent = mysqli_fetch_assoc($result);
+		$admin = mysqli_fetch_assoc($result);
 		
-		if($parent) {
-			if($parent['email'] === $email) {
+		if($admin) {
+			if($admin['email'] === $email) {
 				array_push($errors, "Email already taken.");
 			}
 		}
 
 		// CHECK TO SEE IF THERE ARE ANY EXISTING ERRORS
 		if(count($errors) == 0) {
-			// INSERT THE PARENT INFORMATION INTO THE USERS TABLE
+			// INSERT THE ADMIN INFORMATION INTO THE USERS TABLE
 			$users_query = "INSERT INTO users (email, password, name, phone) VALUES('$email', '$password_1', '$name', '$phone')";
 			$stmt = mysqli_prepare($db2, $users_query);
 			mysqli_stmt_execute($stmt);
-			$id_of_parent = mysqli_stmt_insert_id($stmt);
+			$id_of_admin = mysqli_stmt_insert_id($stmt);
 			
-			// INSERT THE PARENT INFORMATION INTO THE PARENTS TABLE
-			$parent_query = "INSERT INTO parents (parent_id) VALUES('$id_of_parent')";
-			mysqli_query($db2, $parent_query);
+			// INSERT THE ADMIN INFORMATION INTO THE ADMINS TABLE
+			$admin_query = "INSERT INTO admins (admin_id) VALUES('$id_of_admin')";
+			mysqli_query($db2, $admin_query);
 		}
 		else {
 			// IF THERE ARE ERRORS, DISPLAY THEM

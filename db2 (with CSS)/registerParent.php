@@ -4,34 +4,34 @@
 						<h3><p> Register as a parent:</p></h3>";
 		include ('header.php'); 
 	?>
-	<div>
+	<div class="page">
 		<form method="post" action="registerParent.php">
 			<?php include ('errors.php'); ?>
 			<div>
 				<h1><a href="index.php"> Home </a></h1>
 			</div>
-			<div>
+			<div class="input-group">
 				<label>Name:			</label>
 				<input type="text" name="name">
 			</div>
-			<div>
+			<div class="input-group">
 				<label>Phone:			</label>
 				<input type="text" name="phone">
 			</div>
-			<div>
+			<div class="input-group">
 				<label>Email:			</label>
 				<input type="email" name="email">
 			</div>
-			<div>
+			<div class="input-group">
 				<label>Password:		</label>
 				<input type="password" name="password_1">
 			</div>
-			<div>
+			<div class="input-group">
 				<label>Confirm password:</label>
 				<input type="password" name="password_2">
 			</div>
-			<div>
-				<button type="submit" name="reg_user">Sign Up</button>
+			<div class="input-group">
+				<button type="submit" class="btn" name="reg_user">Sign Up</button>
 			</div>
 			<br>
 			<div>

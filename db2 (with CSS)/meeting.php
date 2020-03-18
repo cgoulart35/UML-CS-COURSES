@@ -58,12 +58,12 @@
 		
 		?>
 		<html>
-			<div>
-				<div>
+			<div class="page">
+				<div class = "logout_btn">
 					<a href="logout.php"><input type="button" value="Sign out" name="logout"></a>
 				</div>
 				<h2>Meeting Information:</h2>
-					<table border="1">
+					<table border="1" style="width:75%">
 					  <tr>
 						<th>ID:</th>
 						<th>Name:</th> 
@@ -109,28 +109,28 @@
 					<h2>Post Materials:</h2>
 					<form method="post" action="meeting.php?mid=<?php echo $mid ?>">
 						<?php include ('errors.php'); ?>
-						<div>
+						<div class="input-group">
 							<label>Type:	</label>
 							<input type="text" name="type">
 						</div>
-						<div>
+						<div class="input-group">
 							<label>Notes:	</label>
-							<input type="text" name="notes">
+							<input style="height:100px" type="text" name="notes">
 						</div>
-						<div>
+						<div class="input-group">
 							<label>Title:	</label>
 							<input type="text" name="title">
 						</div>
-						<div>
+						<div class="input-group">
 							<label>Author:	</label>
 							<input type="text" name="author">
 						</div>
-						<div>
+						<div class="input-group">
 							<label>URL:		</label>
 							<input type="url" name="url">
 						</div>
-						<div>
-							<button type="submit" name="post_materials">Post</button>
+						<div class="input-group">
+							<button type="submit" class="btn" name="post_materials">Post</button>
 						</div>
 					</form>
 			</html>
@@ -184,7 +184,7 @@
 			?>
 			<html>
 					<h2>Meeting Material:</h2>
-					<table border="1">
+					<table border="1" style="width:75%">
 					  <tr>
 						<th>Type:</th>
 						<th>Notes:</th> 
@@ -224,7 +224,7 @@
 			<html>
 					</table>
 					<h2>Mentors:</h2>
-					<table border="1">
+					<table border="1" style="width:75%">
 					  <tr>
 						<th>Name:</th>
 						<th>Email:</th> 
@@ -247,7 +247,7 @@
 			<html>
 					</table>
 					<h2>Mentees:</h2>
-					<table border="1">
+					<table border="1" style="width:75%">
 					  <tr>
 						<th>Name:</th>
 						<th>Email:</th> 

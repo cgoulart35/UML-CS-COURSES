@@ -42,35 +42,35 @@
 				//update account info
 				?>
 				<html>
-					<div>
-						<div>
+					<div class="page">
+						<div class ="logout_btn">
 							<a href="logout.php"><input type="button" value="Sign out" name="logout"></a>
 						</div>
 						<br>
 						<form method="post" action="parent.php?id=<?php echo $userPage_id ?>">
 							<?php include ('errors.php'); ?>
-							<div>
+							<div class="input-group">
 								<label>Update Name:		</label>
 								<input type="text" name="name" placeholder="<?php echo $userPage_name ?>">
 							</div>
-							<div>
+							<div class="input-group">
 								<label>Update Phone:	</label>
 								<input type="text" name="phone" placeholder="<?php echo $userPage_phone ?>">
 							</div>
-							<div>
+							<div class="input-group">
 								<label>Update Email:	</label>
 								<input type="email" name="email" placeholder="<?php echo $userPage_email ?>">
 							</div>
-							<div>
+							<div class="input-group">
 								<label>Update Password:	</label>
 								<input type="password" name="password_1">
 							</div>
-							<div>
+							<div class="input-group">
 								<label>Confirm password:</label>
 								<input type="password" name="password_2">
 							</div>
-							<div>
-								<button type="submit" name="update_user">Submit</button>
+							<div class="input-group">
+								<button type="submit" class="btn" name="update_user">Submit</button>
 							</div>
 						</form>
 				</html>		
@@ -127,7 +127,7 @@
 				?>
 				<html>
 						<h2><?php echo "$userPage_name's " ?>Children:</h2>
-						<table border="1">
+						<table border="1" style="width:75%">
 						  <tr>
 							<th>ID:</th>
 							<th>Email:</th> 
@@ -194,7 +194,7 @@
 			else {
 				?>
 				<html>
-					<div>
+					<div class="page">
 						<a href="logout.php"><input type="button" value="Sign out" name="logout"></a>
 					</div>
 				</html>

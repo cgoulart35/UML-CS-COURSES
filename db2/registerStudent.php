@@ -4,42 +4,42 @@
 						<h3><p> Register as a student:</p></h3>";
 		include ('header.php'); 
 	?>
-	<div class="page">
+	<div>
 		<form method="post" action="registerStudent.php">
 			<?php include ('errors.php'); ?>
 			<div>
 				<h1><a href="index.php"> Home </a></h1>
 			</div>
-			<div class="input-group">
+			<div>
 				<label>Name:			</label>
 				<input type="text" name="name">
 			</div>
-			<div class="input-group">
+			<div>
 				<label>Grade:			</label>
 				<input type="number" name="grade">
 			</div>
-			<div class="input-group">
+			<div>
 				<label>Phone:			</label>
 				<input type="text" name="phone">
 			</div>
-			<div class="input-group">
+			<div>
 				<label>Email:			</label>
 				<input type="email" name="email">
 			</div>
-			<div class="input-group">
+			<div>
 				<label>Parent Email:	</label>
 				<input type="text" name="parent_email">
 			</div>
-			<div class="input-group">
+			<div>
 				<label>Password:		</label>
 				<input type="password" name="password_1">
 			</div>
-			<div class="input-group">
+			<div>
 				<label>Confirm password:</label>
 				<input type="password" name="password_2">
 			</div>
-			<div class="input-group">
-				<button type="submit" class="btn" name="reg_user">Sign Up</button>
+			<div>
+				<button type="submit" name="reg_user">Sign Up</button>
 			</div>
 			<br>
 			<div>

@@ -334,21 +334,21 @@ INSERT INTO `time_slot` (`day_of_the_week`, `start_time`, `end_time`) VALUES ('S
 INSERT INTO `time_slot` (`day_of_the_week`, `start_time`, `end_time`) VALUES ('Sunday', '14:00:00', '15:00:00');
 INSERT INTO `time_slot` (`day_of_the_week`, `start_time`, `end_time`) VALUES ('Saturday', '15:00:00', '16:00:00');
 
-INSERT INTO `meetings` (`meet_name`, `date`, `time_slot_id`, `capacity`, `announcement`, `group_id`) VALUES ('Grade 6 English Section 1', '2020-02-29', 7, 9, 'Announcement!', 1);
-INSERT INTO `meetings` (`meet_name`, `date`, `time_slot_id`, `capacity`, `announcement`, `group_id`) VALUES ('Grade 6 English Section 2', '2020-03-01', 8, 9, 'Announcement!', 1);
-INSERT INTO `meetings` (`meet_name`, `date`, `time_slot_id`, `capacity`, `announcement`, `group_id`) VALUES ('Grade 6 Math Section 1', '2020-02-29', 9, 9, 'Announcement!', 1);
-INSERT INTO `meetings` (`meet_name`, `date`, `time_slot_id`, `capacity`, `announcement`, `group_id`) VALUES ('Grade 7 English Section 1', '2020-02-29', 7, 9, 'Announcement!', 2);
-INSERT INTO `meetings` (`meet_name`, `date`, `time_slot_id`, `capacity`, `announcement`, `group_id`) VALUES ('Grade 7 Math Section 1', '2020-03-01', 8, 9, 'Announcement!', 2);
-INSERT INTO `meetings` (`meet_name`, `date`, `time_slot_id`, `capacity`, `announcement`, `group_id`) VALUES ('Grade 8 English Section 1', '2020-02-29', 7, 9, 'Announcement!', 3);
-INSERT INTO `meetings` (`meet_name`, `date`, `time_slot_id`, `capacity`, `announcement`, `group_id`) VALUES ('Grade 8 Math Section 1', '2020-03-01', 8, 9, 'Announcement!', 3);
-INSERT INTO `meetings` (`meet_name`, `date`, `time_slot_id`, `capacity`, `announcement`, `group_id`) VALUES ('Grade 9 English Section 1', '2020-02-29', 7, 9, 'Announcement!', 4);
-INSERT INTO `meetings` (`meet_name`, `date`, `time_slot_id`, `capacity`, `announcement`, `group_id`) VALUES ('Grade 9 Math Section 1', '2020-03-01', 8, 9, 'Announcement!', 4);
-INSERT INTO `meetings` (`meet_name`, `date`, `time_slot_id`, `capacity`, `announcement`, `group_id`) VALUES ('Grade 10 English Section 1', '2020-02-29', 7, 9, 'Announcement!', 5);
-INSERT INTO `meetings` (`meet_name`, `date`, `time_slot_id`, `capacity`, `announcement`, `group_id`) VALUES ('Grade 10 Math Section 1', '2020-03-01', 8, 9, 'Announcement!', 5);
-INSERT INTO `meetings` (`meet_name`, `date`, `time_slot_id`, `capacity`, `announcement`, `group_id`) VALUES ('Grade 11 English Section 1', '2020-02-29', 7, 9, 'Announcement!', 6);
-INSERT INTO `meetings` (`meet_name`, `date`, `time_slot_id`, `capacity`, `announcement`, `group_id`) VALUES ('Grade 11 Math Section 1', '2020-03-01', 8, 9, 'Announcement!', 6);
-INSERT INTO `meetings` (`meet_name`, `date`, `time_slot_id`, `capacity`, `announcement`, `group_id`) VALUES ('Grade 12 English Section 1', '2020-02-29', 7, 9, 'Announcement!', 7);
-INSERT INTO `meetings` (`meet_name`, `date`, `time_slot_id`, `capacity`, `announcement`, `group_id`) VALUES ('Grade 12 Math Section 1', '2020-03-01', 8, 9, 'Announcement!', 7);
+INSERT INTO `meetings` (`meet_name`, `date`, `time_slot_id`, `capacity`, `announcement`, `group_id`) VALUES ('Grade 6 English Section 1', '2020-03-28', 7, 9, 'Announcement!', 1);
+INSERT INTO `meetings` (`meet_name`, `date`, `time_slot_id`, `capacity`, `announcement`, `group_id`) VALUES ('Grade 6 English Section 2', '2020-03-29', 8, 9, 'Announcement!', 1);
+INSERT INTO `meetings` (`meet_name`, `date`, `time_slot_id`, `capacity`, `announcement`, `group_id`) VALUES ('Grade 6 Math Section 1', '2020-03-28', 9, 9, 'Announcement!', 1);
+INSERT INTO `meetings` (`meet_name`, `date`, `time_slot_id`, `capacity`, `announcement`, `group_id`) VALUES ('Grade 7 English Section 1', '2020-03-28', 7, 9, 'Announcement!', 2);
+INSERT INTO `meetings` (`meet_name`, `date`, `time_slot_id`, `capacity`, `announcement`, `group_id`) VALUES ('Grade 7 Math Section 1', '2020-03-29', 8, 9, 'Announcement!', 2);
+INSERT INTO `meetings` (`meet_name`, `date`, `time_slot_id`, `capacity`, `announcement`, `group_id`) VALUES ('Grade 8 English Section 1', '2020-04-04', 7, 9, 'Announcement!', 3);
+INSERT INTO `meetings` (`meet_name`, `date`, `time_slot_id`, `capacity`, `announcement`, `group_id`) VALUES ('Grade 8 Math Section 1', '2020-04-05', 8, 9, 'Announcement!', 3);
+INSERT INTO `meetings` (`meet_name`, `date`, `time_slot_id`, `capacity`, `announcement`, `group_id`) VALUES ('Grade 9 English Section 1', '2020-04-04', 7, 9, 'Announcement!', 4);
+INSERT INTO `meetings` (`meet_name`, `date`, `time_slot_id`, `capacity`, `announcement`, `group_id`) VALUES ('Grade 9 Math Section 1', '2020-04-05', 8, 9, 'Announcement!', 4);
+INSERT INTO `meetings` (`meet_name`, `date`, `time_slot_id`, `capacity`, `announcement`, `group_id`) VALUES ('Grade 10 English Section 1', '2020-04-04', 7, 9, 'Announcement!', 5);
+INSERT INTO `meetings` (`meet_name`, `date`, `time_slot_id`, `capacity`, `announcement`, `group_id`) VALUES ('Grade 10 Math Section 1', '2020-04-11', 8, 9, 'Announcement!', 5);
+INSERT INTO `meetings` (`meet_name`, `date`, `time_slot_id`, `capacity`, `announcement`, `group_id`) VALUES ('Grade 11 English Section 1', '2020-04-12', 7, 9, 'Announcement!', 6);
+INSERT INTO `meetings` (`meet_name`, `date`, `time_slot_id`, `capacity`, `announcement`, `group_id`) VALUES ('Grade 11 Math Section 1', '2020-04-11', 8, 9, 'Announcement!', 6);
+INSERT INTO `meetings` (`meet_name`, `date`, `time_slot_id`, `capacity`, `announcement`, `group_id`) VALUES ('Grade 12 English Section 1', '2020-04-12', 7, 9, 'Announcement!', 7);
+INSERT INTO `meetings` (`meet_name`, `date`, `time_slot_id`, `capacity`, `announcement`, `group_id`) VALUES ('Grade 12 Math Section 1', '2020-04-11', 8, 9, 'Announcement!', 7);
 
 INSERT INTO `enroll` (`meet_id`, `mentee_id`) VALUES (100, 16);
 INSERT INTO `enroll` (`meet_id`, `mentee_id`) VALUES (100, 17);
