@@ -56,6 +56,116 @@
 				$headerOutput = "<h1> Welcome $current_name!</h1>
 								<h3><p> $userPage_name's admin page:</p></h3>";
 				include('header.php');
+		
+				//if it's Friday, cancel all meetings with less than three mentees and notify participants
+				//if it's Friday, admin is the only user who can add mentors to a meeting for current weekend; admin will be prompted to add available mentors to meetings with less than two mentors
+				date_default_timezone_set('America/New_York');
+				if (date('D') == 'Fri') {
+	
+					//notify participants
+					$next_monday_date = date( 'Y-m-d', strtotime( 'monday next week' ) );
+					$notify_participants_query = "SELECT * FROM ((SELECT mentee_id AS id, meet_id FROM enroll GROUP BY meet_id HAVING count(mentee_id) < 3) UNION (SELECT mentor_id AS id, meet_id FROM enroll2 WHERE meet_id NOT IN (SELECT meet_id FROM enroll GROUP BY meet_id HAVING count(mentee_id) >= 3))) AS bigTbl WHERE bigTbl.meet_id IN (SELECT meet_id FROM meetings WHERE date < '$next_monday_date')";
+					$notify_participants_result = mysqli_query($db2, $notify_participants_query);
+					
+					//if there is no one to notify, don't create notifications or cancel any meetings
+					if ($notify_participants_result->num_rows != 0) {
+						
+						//output to notification file canceledMeetings.txt
+						$timestamp = date('H:i:s');
+						$timestamp = str_replace(":","-",$timestamp);
+						$canceledMeetingsFile = fopen("canceledMeetingsNotifications[" . $timestamp . "].txt", "w") or die("Can't open file.");
+						
+						while($participant = mysqli_fetch_assoc($notify_participants_result)) {
+							
+							$uid = $participant['id'];
+							$mid = $participant['meet_id'];
+							
+							//get names and emails of participants to notify
+							$get_name_email_query = "SELECT name, email FROM users WHERE id = '$uid'";
+							$get_name_email_result = mysqli_query($db2, $get_name_email_query);
+							$get_name_email_arr = mysqli_fetch_assoc($get_name_email_result);
+							
+							//get names of meetings
+							$get_meeting_name_query = "SELECT meet_name FROM meetings WHERE meet_id = '$mid'";
+							$get_meeting_name_result = mysqli_query($db2, $get_meeting_name_query);
+							$get_meeting_name_arr = mysqli_fetch_assoc($get_meeting_name_result);
+							
+							$notify_name = $get_name_email_arr['name'];
+							$notify_email = $get_name_email_arr['email'];
+							$notify_meeting_name = $get_meeting_name_arr['meet_name'];
+							
+							$txt = "Notify " . $notify_name . " (" . $notify_email . ")" . " that the meeting '" . $notify_meeting_name . "' has been canceled.\n";
+							fwrite($canceledMeetingsFile, $txt);
+						}
+						fclose($canceledMeetingsFile);
+					
+					
+						//remove meetings with less than three mentees
+						$cancel_meetings_query = "DELETE FROM meetings WHERE meet_id NOT IN (SELECT meet_id FROM enroll GROUP BY meet_id HAVING count(mentee_id) >= 3) AND date < '$next_monday_date'";
+						mysqli_query($db2, $cancel_meetings_query);
+						
+						//remove mentees from mentees if they are no longer in enroll
+						$remove_mentees_query = "DELETE FROM mentees WHERE mentee_id NOT IN (SELECT mentee_id FROM enroll)";
+						mysqli_query($db2, $remove_mentees_query);
+						
+						//remove mentors from mentors if they are no longer in enroll2
+						$remove_mentors_query = "DELETE FROM mentors WHERE mentor_id NOT IN (SELECT mentor_id FROM enroll2)";
+						mysqli_query($db2, $remove_mentors_query);
+					}
+					
+					//generate table showing meetings with under two mentors for current weekend; add and notify option for available mentors to add
+					?>
+					<html>
+						<h2>It's Friday! Add mentors to meetings with under two mentors:</h2>
+					</html>
+					<?php
+					
+					$meetings_under_two_mentors_query = "SELECT * FROM meetings WHERE meet_id NOT IN (SELECT meet_id FROM enroll2 GROUP BY meet_id HAVING count(mentor_id) >= 2) AND date < '$next_monday_date'";
+					$meetings_under_two_mentors_result = mysqli_query($db2, $meetings_under_two_mentors_query);
+					
+					if ($meetings_under_two_mentors_result->num_rows == 0) {
+						?>
+						<html>
+							<h3>No meetings with under two mentors!</h3>
+						</html>
+						<?php
+					}
+					
+					while($meeting = $meetings_under_two_mentors_result->fetch_assoc()) {
+						$meeting_name = $meeting['meet_name'];
+						$meeting_id = $meeting['meet_id'];
+						$meeting_date = $meeting['date'];
+						
+						echo "<table border=\"1\">
+								<tr>
+									<th>$meeting_id</th>
+									<th>$meeting_name</th>
+									<th>$meeting_date</th>
+								</tr>
+								<tr>
+									<th>Name:</th>
+									<th>Email:</th>
+									<th>Add as Mentor:</th>
+								</tr>";
+						
+						//show list of available mentors for this meeting
+						//change to professor's idea of available mentors!!!!
+						$available_mentors_query = "SELECT * FROM users WHERE id IN (SELECT student_id FROM students WHERE grade >= (SELECT mentor_grade_req FROM groups INNER JOIN meetings ON groups.group_id = meetings.group_id WHERE meet_id = $meeting_id)) AND id NOT IN (SELECT mentor_id FROM enroll2 WHERE meet_id = $meeting_id)";
+						$available_mentors_result = mysqli_query($db2, $available_mentors_query);
+						while($mentor = $available_mentors_result->fetch_assoc()) {
+							$mentor_id = $mentor['id'];
+							$mentor_name = $mentor['name'];
+							$mentor_email = $mentor['email'];
+							echo "<tr>
+									<td>$mentor_name</td>
+									<td>$mentor_email</td>
+									<td><a href=addAsMentorAndNotify.php?mid=$meeting_id&sid=$mentor_id> Add & Notify </a></th>
+								</tr>";
+						}
+						echo "</table>
+							<br>";
+					}
+				}
 				
 				//update account info
 				?>

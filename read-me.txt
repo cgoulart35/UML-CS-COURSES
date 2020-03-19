@@ -28,7 +28,7 @@ these actions as a user using the web interface:
      CODE LOCATION:
         registerStudent.php, registerParent.php, registerAdmin.php, student.php (update info
         lines 65-147), parent.php (update info and child's info lines 50-193), and in
-        admin.php (update info 68-139 and other users' info 189-270)
+        admin.php (update info 170-249 and other users' info 299-380)
      INSTRUCTIONS:
         To register as a specific user, click on register the type of user you want to
         register on the homepage and fill in the form with the desired information. Remember,
@@ -83,8 +83,8 @@ these actions as a user using the web interface:
         dropMeetingsAsMentee.php, dropAllAsMentor.php, dropAllAsMentee.php, addAsMentor.php,
         addAsMentee.php, addMeetingsAsMentor.php, addMeetingsAsMentee.php, addAllAsMentor.php,
         addAllAsMentee.php, parent.php (assign meetings by editing children lines 123-193), and in
-        admin.php (assign meetings by editing students 189-270), db2.sql (meeting information on
-        lines 337-351)
+        admin.php (assign meetings by editing students 299-380), db2.sql (meeting information on
+        lines 337-347)
      INSTRUCTIONS:
         Again, a student can add or drop one displayed meeting, add or drop all displayed
         meetings with the same name (for the rest of the year), or add or drop all meetings that
@@ -113,14 +113,22 @@ these actions as a user using the web interface:
      notification files which contain the names and email addresses of the users who should
      be notified.
 
-     CODE LOCATION: TBD
-     INSTRUCTIONS: TBD
+     CODE LOCATION:
+        admin.php (if it's Friday, cancel meetings & add needed mentors 60-168), addAsMentorAndNotify.php
+     INSTRUCTIONS:
+        On a Friday when the admin logs in, they will see an option at the top of the page which shows meetings
+        this weekend that have less than 2 mentors. The admin can add available mentors to meetings, and 
+        notification text files are generated for each mentor added to a meeting with a timestamp on its name.
+        These mentor added notification files contain the name and email of a mentor, and a meeting name they're
+        added to. If there are any meetings for this weekend which have less than three mentees, those meetings
+        will be canceled and a notification text file is generated. The file contains the names and emails to be
+        notified of their specific canceled meetings.
 
   6. The admin will post study materials to each group’s meetings every Friday for the
      following week. A student will be able to see the current and past materials for each
      meeting of the group he/she is in.
 
-     CODE LOCATION: admin.php (post buttons lines 141-187), meeting.php (post materials lines 105-179 &
+     CODE LOCATION: admin.php (post buttons lines 251-297), meeting.php (post materials lines 105-179 &
         view materials lines 181-219), student.php (view meeting buttons within lines 149-420)
      INSTRUCTIONS:
         Logged in as an admin, click on post materials for a certain meeting. You can also view meetings
@@ -129,6 +137,4 @@ these actions as a user using the web interface:
         will be able to see posted materials by clicking view meeting.
 
 Notes:
-  - We decided to use CSS to make out interface a little easier to interpret the content
-    shown on different pages.
   - Throughout the PDF, there was no requirement to add meetings, so we did not implement this.
