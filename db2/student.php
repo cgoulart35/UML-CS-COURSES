@@ -163,6 +163,7 @@
 				$append_future_dates_query = "";
 				date_default_timezone_set('America/New_York');
 				$current_date = date('Y-m-d');
+				$next_monday_date = date( 'Y-m-d', strtotime( 'monday next week' ) );
 				$thursday_date = date( 'Y-m-d', strtotime( 'thursday this week' ) );
 				//if date is before this weeks thurday; show meetings with dates this saturday and on
 				if ($current_date < $thursday_date) {
@@ -193,7 +194,7 @@
 								<th>Announcement:</th>
 								<th>View Meeting:</th>
 								<th>Drop Meeting:</th>
-								<th>Drop Meetings (by name):</th>
+								<th>Drop All Future Meetings (by name):</th>
 							  </tr>
 					</html>
 					<?php
@@ -225,7 +226,7 @@
 								<td>$row_announcement</th>
 								<td><a href=meeting.php?mid=$row_id> View </a></th>
 								<td><a href=dropAsMentor.php?mid=$row_id&sid=$userPage_id> Drop </a></th>
-								<td><a href=dropMeetingsAsMentor.php?mid=$row_id&sid=$userPage_id> Drop Meetings </a></th>
+								<td><a href=dropMeetingsAsMentor.php?mid=$row_id&sid=$userPage_id> Drop Future Meetings </a></th>
 							</tr>";
 					}
 					
@@ -240,7 +241,7 @@
 					<html>
 							</table>
 							<h2>Possible meetings for <?php echo $userPage_name ?> to be mentor of:</h2>
-							<h5>Your request will not go through if there are already 3 mentors.</h5>
+							<h5>Your request will not go through if there are already 3 mentors. You can only be a mentor of one meeting per weekend.</h5>
 							<table border="1">
 							  <tr>
 								<th>ID:</th>
@@ -251,12 +252,13 @@
 								<th>Announcement:</th>
 								<th>View Meeting:</th>
 								<th>Add Meeting:</th>
-								<th>Add Meetings (by name):</th>
+								<th>Add All Future Meetings (by name):</th>
 							  </tr>
 					</html>
 					<?php
 					
-					$possible_meetings_mentor_of = "SELECT * FROM meetings WHERE group_id IN (SELECT group_id FROM groups WHERE description <= '$userPage_mentee_grade_req') AND meet_id NOT IN (SELECT meet_id FROM enroll2 WHERE mentor_id = '$userPage_id')" . $append_future_dates_query;
+					//possible meetings are all meetings in the future (also meetings this weekend if its before Thursday) where we are not already a mentor for that weekend (specifically that date, and that date + 1 if it's Saturday, and that date - 1 if it's Sunday; we use both date + 1 and date - 1 because meetings are not on Fridays or Mondays
+					$possible_meetings_mentor_of = "SELECT * FROM meetings WHERE group_id IN (SELECT group_id FROM groups WHERE description <= '$userPage_mentee_grade_req') AND meet_id NOT IN (SELECT meet_id FROM enroll2 WHERE mentor_id = '$userPage_id') AND date NOT IN ((SELECT date FROM meetings INNER JOIN enroll2 ON meetings.meet_id = enroll2.meet_id WHERE mentor_id = '$userPage_id') UNION (SELECT date - 1 FROM meetings INNER JOIN enroll2 ON meetings.meet_id = enroll2.meet_id WHERE mentor_id = '$userPage_id') UNION (SELECT date + 1 FROM meetings INNER JOIN enroll2 ON meetings.meet_id = enroll2.meet_id WHERE mentor_id = '$userPage_id'))" . $append_future_dates_query;
 					$possible_meetings_mentor_of_result = mysqli_query($db2, $possible_meetings_mentor_of);
 					
 					while($row = $possible_meetings_mentor_of_result->fetch_assoc()) {
@@ -283,13 +285,9 @@
 								<td>$row_announcement</th>
 								<td><a href=meeting.php?mid=$row_id> View </a></th>
 								<td><a href=addAsMentor.php?mid=$row_id&sid=$userPage_id> Add </a></th>
-								<td><a href=addMeetingsAsMentor.php?mid=$row_id&sid=$userPage_id> Add Meetings </a></th>
+								<td><a href=addMeetingsAsMentor.php?mid=$row_id&sid=$userPage_id> Add Future Meetings </a></th>
 							</tr>";
 					}
-					
-					echo "<tr>
-						<a href=addAllAsMentor.php?sid=$userPage_id> Add All Meetings as Mentor </a>
-					</tr>";
 				}
 				
 				if ($userPage_mentor_grade_req != null) {
@@ -311,7 +309,7 @@
 								<th>Announcement:</th>
 								<th>View Meeting:</th>
 								<th>Drop Meeting:</th>
-								<th>Drop Meetings (by name):</th>
+								<th>Drop All Future Meetings (by name):</th>
 							  </tr>
 					</html>
 					<?php
@@ -344,7 +342,7 @@
 								<td>$row_announcement</th>
 								<td><a href=meeting.php?mid=$row_id> View </a></th>
 								<td><a href=dropAsMentee.php?mid=$row_id&sid=$userPage_id> Drop </a></th>
-								<td><a href=dropMeetingsAsMentee.php?mid=$row_id&sid=$userPage_id> Drop Meetings </a></th>
+								<td><a href=dropMeetingsAsMentee.php?mid=$row_id&sid=$userPage_id> Drop Future Meetings </a></th>
 							</tr>";
 					}
 					
@@ -359,7 +357,7 @@
 					<html>
 							</table>
 							<h2>Possible meetings for <?php echo $userPage_name ?> to be mentee of:</h2>
-							<h5>Your request will not go through if there are already 6 mentees.</h5>
+							<h5>Your request will not go through if there are already 6 mentees. You can only be a mentee of meetings with different times, and you can only have one meeting per subject each weekend.</h5>
 							<table border="1">
 							  <tr>
 								<th>ID:</th>
@@ -370,45 +368,72 @@
 								<th>Announcement:</th>
 								<th>View Meeting:</th>
 								<th>Add Meeting:</th>
-								<th>Add Meetings (by name):</th>
+								<th>Add All Future Meetings (by name):</th>
 							  </tr>
 					</html>
 					<?php
 					
-					$possible_meetings_mentee_of = "SELECT * FROM meetings WHERE group_id = '$userPage_group_id' AND meet_id NOT IN (SELECT meet_id FROM enroll WHERE mentee_id = '$userPage_id')" . $append_future_dates_query;
+					//possible meetings are meetings that are not on the same date and time-slot as enrolled meetings, and are math classes a certain weekend if not yet enrolled in a math class that weekend, and english classes a weekend if not yet enrolled in an english class that weekend
+					$possible_meetings_mentee_of = "SELECT * FROM meetings WHERE group_id = '$userPage_group_id' AND meet_id NOT IN (SELECT meet_id FROM enroll WHERE mentee_id = '$userPage_id') AND (time_slot_id, date) NOT IN (SELECT time_slot_id, date FROM meetings INNER JOIN enroll ON meetings.meet_id = enroll.meet_id WHERE mentee_id = '$userPage_id')" . $append_future_dates_query;
 					$possible_meetings_mentee_of_result = mysqli_query($db2, $possible_meetings_mentee_of);
 					
 					while($row = $possible_meetings_mentee_of_result->fetch_assoc()) {
-						$row_id = $row['meet_id'];
+						
+						//get type of class this meeting is (Math or English) and its date
 						$row_name = $row['meet_name'];
 						$row_date = $row['date'];
-						$row_time_id = $row['time_slot_id'];
-						$row_capacity = $row['capacity'];
-						$row_announcement = $row['announcement'];
 						
-						$time_slot_query = "SELECT * FROM time_slot WHERE time_slot_id = '$row_time_id' LIMIT 1";
-						$time_slot_result = mysqli_query($db2, $time_slot_query);
-						$time_slot_arr = mysqli_fetch_assoc($time_slot_result);
-						$row_time_slot_day = $time_slot_arr['day_of_the_week'];
-						$row_time_slot_start = $time_slot_arr['start_time'];
-						$row_time_slot_end = $time_slot_arr['end_time'];
+						//get weekend dates of this meetings weekend
+						if (date('D', strtotime($row_date)) == 'Sat') {
+							$sat_date = $row_date;
+							$sun_date = date('Y-m-d', strtotime($sat_date .' +1 day'));
+						}
+						else if (date('D', strtotime($row_date)) == 'Sun') {
+							$sun_date = $row_date;
+							$sat_date = date('Y-m-d', strtotime($sun_date .' -1 day'));
+						}
+
+						//figure out types of classes enrolled in that weekend
+						$types_of_classes_enrolled_in_that_weekend_query = "SELECT meet_name FROM meetings INNER JOIN enroll ON meetings.meet_id = enroll.meet_id WHERE mentee_id = '$userPage_id' AND date <= '$sun_date' AND date >= '$sat_date'";
+						$types_of_classes_enrolled_in_that_weekend_result = mysqli_query($db2, $types_of_classes_enrolled_in_that_weekend_query);
 						
-						echo "<tr>
-								<td>$row_id</th>
-								<td>$row_name</th> 
-								<td>$row_date</th>
-								<td>$row_time_slot_day $row_time_slot_start - $row_time_slot_end</th>
-								<td>$row_capacity</th>
-								<td>$row_announcement</th>
-								<td><a href=meeting.php?mid=$row_id> View </a></th>
-								<td><a href=addAsMentee.php?mid=$row_id&sid=$userPage_id> Add </a></th>
-								<td><a href=addMeetingsAsMentee.php?mid=$row_id&sid=$userPage_id> Add Meetings </a></th>
-							</tr>";
+						//figure out if this meeting is in types of classes we are enrolled in
+						$enrolled_in_type_already_that_weekend = False;
+						while($enrolled_name = mysqli_fetch_assoc($types_of_classes_enrolled_in_that_weekend_result)) {
+							if (in_array($row_name, $enrolled_name)) {
+								$enrolled_in_type_already_that_weekend = True;
+								break;
+							}
+						}
+
+						//again, possible meetings are math classes a certain weekend if not yet enrolled in a math class that weekend, and english classes a weekend if not yet enrolled in an english class that weekend, etc.
+						if (!($enrolled_in_type_already_that_weekend)) {
+							
+							$row_id = $row['meet_id'];
+							$row_time_id = $row['time_slot_id'];
+							$row_capacity = $row['capacity'];
+							$row_announcement = $row['announcement'];
+							
+							$time_slot_query = "SELECT * FROM time_slot WHERE time_slot_id = '$row_time_id' LIMIT 1";
+							$time_slot_result = mysqli_query($db2, $time_slot_query);
+							$time_slot_arr = mysqli_fetch_assoc($time_slot_result);
+							$row_time_slot_day = $time_slot_arr['day_of_the_week'];
+							$row_time_slot_start = $time_slot_arr['start_time'];
+							$row_time_slot_end = $time_slot_arr['end_time'];
+							
+							echo "<tr>
+									<td>$row_id</th>
+									<td>$row_name</th> 
+									<td>$row_date</th>
+									<td>$row_time_slot_day $row_time_slot_start - $row_time_slot_end</th>
+									<td>$row_capacity</th>
+									<td>$row_announcement</th>
+									<td><a href=meeting.php?mid=$row_id> View </a></th>
+									<td><a href=addAsMentee.php?mid=$row_id&sid=$userPage_id> Add </a></th>
+									<td><a href=addMeetingsAsMentee.php?mid=$row_id&sid=$userPage_id> Add Future Meetings </a></th>
+								</tr>";
+						}	
 					}
-					
-					echo "<tr>
-							<a href=addAllAsMentee.php?sid=$userPage_id> Add All Meetings as Mentee </a>
-						</tr>";
 				}
 				
 				?>

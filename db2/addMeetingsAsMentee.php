@@ -52,7 +52,8 @@
 			$append_future_dates_query = "AND date >= '$next_saturday_date'"; 
 		}
 		
-		$possible_meetings_mentee_of = "SELECT * FROM meetings WHERE group_id = '$userPage_group_id' AND meet_id NOT IN (SELECT meet_id FROM enroll WHERE mentee_id = '$sid')" . $append_future_dates_query;
+		$possible_meetings_mentee_of = "SELECT * FROM meetings WHERE group_id = '$userPage_group_id' AND meet_id NOT IN (SELECT meet_id FROM enroll WHERE mentee_id = '$sid') AND (time_slot_id, date) NOT IN (SELECT time_slot_id, date FROM meetings INNER JOIN enroll ON meetings.meet_id = enroll.meet_id WHERE mentee_id = '$sid')" . $append_future_dates_query;
+		
 		$possible_meetings_mentee_of_result = mysqli_query($db2, $possible_meetings_mentee_of);
 		$is_possible_meeting = False;
 		while($meeting = mysqli_fetch_assoc($possible_meetings_mentee_of_result)) {
@@ -62,7 +63,37 @@
 			}
 		}
 		
-		if (($current_id == $sid || ($_SESSION['isParent'] && $in_all_childen_of_parent) || $_SESSION['isAdmin']) && $is_possible_meeting) {	
+		//get type of class this meeting is (Math or English) and its date
+		$meeting_name_date_query = "SELECT meet_name, date FROM meetings WHERE meet_id = '$mid' LIMIT 1";
+		$meeting_name_date_result = mysqli_query($db2, $meeting_name_date_query);
+		$meeting_name_date_arr = mysqli_fetch_assoc($meeting_name_date_result);
+		$meet_name = $meeting_name_date_arr['meet_name'];
+		$meet_date = $meeting_name_date_arr['date'];
+		
+		//get weekend dates of this meetings weekend
+		if (date('D', strtotime($meet_date)) == 'Sat') {
+			$sat_date = $meet_date;
+			$sun_date = date('Y-m-d', strtotime($sat_date .' +1 day'));
+		}
+		else if (date('D', strtotime($meet_date)) == 'Sun') {
+			$sun_date = $meet_date;
+			$sat_date = date('Y-m-d', strtotime($sun_date .' -1 day'));
+		}
+
+		//figure out types of classes enrolled in that weekend
+		$types_of_classes_enrolled_in_that_weekend_query = "SELECT meet_name FROM meetings INNER JOIN enroll ON meetings.meet_id = enroll.meet_id WHERE mentee_id = '$sid' AND date <= '$sun_date' AND date >= '$sat_date'";
+		$types_of_classes_enrolled_in_that_weekend_result = mysqli_query($db2, $types_of_classes_enrolled_in_that_weekend_query);
+		
+		//figure out if this meeting is in types of classes we are enrolled in
+		$enrolled_in_type_already_that_weekend = False;
+		while($enrolled_name = mysqli_fetch_assoc($types_of_classes_enrolled_in_that_weekend_result)) {
+			if (in_array($meet_name, $enrolled_name)) {
+				$enrolled_in_type_already_that_weekend = True;
+				break;
+			}
+		}
+		
+		if (($current_id == $sid || ($_SESSION['isParent'] && $in_all_childen_of_parent) || $_SESSION['isAdmin']) && $is_possible_meeting && !($enrolled_in_type_already_that_weekend)) {	
 			
 			//if there are already 6 mentees, don't add any
 			$mentee_count_query = "SELECT count(mentee_id) FROM enroll WHERE meet_id = '$mid' LIMIT 1";
@@ -77,13 +108,45 @@
 				$add_to_mentees = "INSERT INTO mentees (mentee_id) VALUES ('$sid')";
 				mysqli_query($db2, $add_to_mentees);
 				
-				$select_meetings_with_same_name = "SELECT meet_id FROM meetings WHERE group_id = (SELECT group_id FROM meetings WHERE meet_id = '$mid' LIMIT 1) AND meet_name = (SELECT meet_name FROM meetings WHERE meet_id = '$mid')";
-				$result = mysqli_query($db2, $select_meetings_with_same_name);
+				$add_meeting_as_mentee = "INSERT INTO enroll (meet_id, mentee_id) VALUES ('$mid', '$sid')";
+				mysqli_query($db2, $add_meeting_as_mentee);
 				
+				$select_meetings_with_same_name = "SELECT * FROM meetings WHERE group_id = (SELECT group_id FROM meetings WHERE meet_id = '$mid' LIMIT 1) AND meet_name = (SELECT meet_name FROM meetings WHERE meet_id = '$mid')";
+				$result = mysqli_query($db2, $select_meetings_with_same_name);
+
 				while($meeting = mysqli_fetch_assoc($result)) {
 					$new_mid = $meeting['meet_id'];
-					$add_meeting_as_mentee = "INSERT INTO enroll (meet_id, mentee_id) VALUES ('$new_mid', '$sid')";
-					mysqli_query($db2, $add_meeting_as_mentee);
+					$new_name = $meeting['meet_name'];
+					$new_date = $meeting['date'];
+					
+					//get weekend dates of this meetings weekend
+					if (date('D', strtotime($new_date)) == 'Sat') {
+						$sat_date = $new_date;
+						$sun_date = date('Y-m-d', strtotime($sat_date .' +1 day'));
+					}
+					else if (date('D', strtotime($new_date)) == 'Sun') {
+						$sun_date = $new_date;
+						$sat_date = date('Y-m-d', strtotime($sun_date .' -1 day'));
+					}
+
+					//figure out types of classes enrolled in that weekend
+					$types_of_classes_enrolled_in_that_weekend_query = "SELECT meet_name FROM meetings INNER JOIN enroll ON meetings.meet_id = enroll.meet_id WHERE mentee_id = '$sid' AND date <= '$sun_date' AND date >= '$sat_date'";
+					$types_of_classes_enrolled_in_that_weekend_result = mysqli_query($db2, $types_of_classes_enrolled_in_that_weekend_query);
+					
+					//figure out if this meeting is in types of classes we are enrolled in
+					$enrolled_in_type_already_that_weekend = False;
+					while($enrolled_name = mysqli_fetch_assoc($types_of_classes_enrolled_in_that_weekend_result)) {
+						if (in_array($new_name, $enrolled_name)) {
+							$enrolled_in_type_already_that_weekend = True;
+							break;
+						}
+					}
+					
+					if (!($enrolled_in_type_already_that_weekend)) {
+						print($enrolled_in_type_already_that_weekend);
+						$add_meeting_as_mentee = "INSERT INTO enroll (meet_id, mentee_id) VALUES ('$new_mid', '$sid')";
+						mysqli_query($db2, $add_meeting_as_mentee);
+					}
 				}
 			}
 		}

@@ -27,8 +27,8 @@ these actions as a user using the web interface:
 
      CODE LOCATION:
         registerStudent.php, registerParent.php, registerAdmin.php, student.php (update info
-        lines 65-147), parent.php (update info and child's info lines 50-193), and in
-        admin.php (update info 170-249 and other users' info 299-380)
+        lines 57-147), parent.php (update info and child's info lines 50-193), and in
+        admin.php (update info 169-248 and other users' info 298-379)
      INSTRUCTIONS:
         To register as a specific user, click on register the type of user you want to
         register on the homepage and fill in the form with the desired information. Remember,
@@ -54,8 +54,8 @@ these actions as a user using the web interface:
      CODE LOCATION:
         student.php (lines 149-420), dropAsMentor.php, dropAsMentee.php, dropMeetingsAsMentor.php,
         dropMeetingsAsMentee.php, dropAllAsMentor.php, dropAllAsMentee.php, addAsMentor.php,
-        addAsMentee.php, addMeetingsAsMentor.php, addMeetingsAsMentee.php, addAllAsMentor.php,
-        addAllAsMentee.php, db2.sql (group requirements lines 325-331)
+        addAsMentee.php, addMeetingsAsMentor.php, addMeetingsAsMentee.php, db2.sql (group requirements
+        lines 330-336)
      INSTRUCTIONS:
         As either a student, parent, or admin, go to a student's page (your own page if you
         are a student) and view the various tables called "Meetings --- is a mentor of:",
@@ -65,10 +65,10 @@ these actions as a user using the web interface:
         show up for students in grade 6-9 as grades 10-12 can only be mentors. As you can see,
         only grade 9 students can see both mentor and mentee tables. Meetings in specific groups
         that the student can be a mentor or mentee of will show up based on the group/grade the 
-        student is in. The student can add or drop one displayed meeting, add or drop all displayed
-        meetings with the same name (for the rest of the year), or add or drop all meetings that
-        are available in the tables in general. You can also click on view meeting to see the
-        meeting's information, the meeting's material if you are a mentee or mentor, or a parent of,
+        student is in. The student can add or drop one displayed meeting, or add or drop all displayed
+        meetings with the same name, not on the same weekend (for the rest of the year).
+        You can also click on view meeting to see the meeting's information,
+        the meeting's material if you are a mentee or mentor, or a parent of,
         or an admin, the meeting's mentees and mentors if you are logged in as a mentor or admin, 
         and an option to post materials if you are logged in as an admin.
 
@@ -81,17 +81,19 @@ these actions as a user using the web interface:
      CODE LOCATION:
         student.php (lines 149-420), dropAsMentor.php, dropAsMentee.php, dropMeetingsAsMentor.php,
         dropMeetingsAsMentee.php, dropAllAsMentor.php, dropAllAsMentee.php, addAsMentor.php,
-        addAsMentee.php, addMeetingsAsMentor.php, addMeetingsAsMentee.php, addAllAsMentor.php,
-        addAllAsMentee.php, parent.php (assign meetings by editing children lines 123-193), and in
-        admin.php (assign meetings by editing students 299-380), db2.sql (meeting information on
-        lines 337-347)
+        addAsMentee.php, addMeetingsAsMentor.php, addMeetingsAsMentee.php,
+        parent.php (assign meetings by editing children lines 123-193), and in
+        admin.php (assign meetings by editing students 298-379), db2.sql (meeting information on
+        lines 342-351)
      INSTRUCTIONS:
-        Again, a student can add or drop one displayed meeting, add or drop all displayed
-        meetings with the same name (for the rest of the year), or add or drop all meetings that
-        are available in the tables in general. Notice the warnings displayed on the possible
-        meetings tables; if there are already 3 mentors or 6 mentees, your add request will not
-        go through. Previous meetings will not show up as possible meetings, but they do show up in
-        enrolled meetings. Future meetings show up, however you can only add the current week's
+        Again, a student can add or drop one displayed meeting, or add or drop all displayed
+        meetings with the same name, not on the same weekend (for the rest of the year).
+        Notice the warnings displayed on the possible meetings tables; if there are already 3 mentors
+        or 6 mentees, your add request will not go through. Also, you can only be a mentor of one
+        meeting per weekend, you can only be a mentee of meetings with different times,
+        and you can only have one meeting per subject each weekend as a mentee.
+        Previous meetings will not show up as possible meetings, but they do show up in
+        enrolled meetings. Future meetings show up, however you can only add the current weekend's
         meetings by Thursday. Mentors and mentees can also be assigned by admins and parents (children)
         by clicking on the Edit Student button for the desired student, and then adding the meeting(s).
 
@@ -114,7 +116,7 @@ these actions as a user using the web interface:
      be notified.
 
      CODE LOCATION:
-        admin.php (if it's Friday, cancel meetings & add needed mentors 60-168), addAsMentorAndNotify.php
+        admin.php (if it's Friday, cancel meetings & add needed mentors 60-167), addAsMentorAndNotify.php
      INSTRUCTIONS:
         On a Friday when the admin logs in, they will see an option at the top of the page which shows meetings
         this weekend that have less than 2 mentors. The admin can add available mentors to meetings, and 
@@ -128,7 +130,7 @@ these actions as a user using the web interface:
      following week. A student will be able to see the current and past materials for each
      meeting of the group he/she is in.
 
-     CODE LOCATION: admin.php (post buttons lines 251-297), meeting.php (post materials lines 105-179 &
+     CODE LOCATION: admin.php (post buttons lines 250-296), meeting.php (post materials lines 105-179 &
         view materials lines 181-219), student.php (view meeting buttons within lines 149-420)
      INSTRUCTIONS:
         Logged in as an admin, click on post materials for a certain meeting. You can also view meetings
@@ -138,3 +140,6 @@ these actions as a user using the web interface:
 
 Notes:
   - Throughout the PDF, there was no requirement to add meetings, so we did not implement this.
+  - The features for #5 will ONLY show up/execute when it is Friday!!! Please test this on a Friday, or
+    change line 63 in admin.php to look like: date('D') == '___'. Please insert the acronym for the day 
+    you are testing on (Mon, Tue, Wed, Thu, Fri, Sat, Sun).

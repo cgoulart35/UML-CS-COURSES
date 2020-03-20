@@ -148,9 +148,8 @@
 									<th>Add as Mentor:</th>
 								</tr>";
 						
-						//show list of available mentors for this meeting
-						//change to professor's idea of available mentors!!!!
-						$available_mentors_query = "SELECT * FROM users WHERE id IN (SELECT student_id FROM students WHERE grade >= (SELECT mentor_grade_req FROM groups INNER JOIN meetings ON groups.group_id = meetings.group_id WHERE meet_id = $meeting_id)) AND id NOT IN (SELECT mentor_id FROM enroll2 WHERE meet_id = $meeting_id)";
+						//show list of available mentors for this meeting; anyone who fits the grade requirement and who isn't a mentor already this weekend
+						$available_mentors_query = "SELECT * FROM users WHERE id IN (SELECT student_id FROM students WHERE grade >= (SELECT mentor_grade_req FROM groups INNER JOIN meetings ON groups.group_id = meetings.group_id WHERE meet_id = $meeting_id)) AND id NOT IN (SELECT mentor_id FROM enroll2 WHERE meet_id IN (SELECT meet_id FROM meetings WHERE date < '$next_monday_date'))";
 						$available_mentors_result = mysqli_query($db2, $available_mentors_query);
 						while($mentor = $available_mentors_result->fetch_assoc()) {
 							$mentor_id = $mentor['id'];

@@ -52,7 +52,9 @@
 			$append_future_dates_query = "AND date >= '$next_saturday_date'"; 
 		}
 		
-		$possible_meetings_mentor_of = "SELECT meet_id FROM meetings WHERE group_id IN (SELECT group_id FROM groups WHERE description <= '$userPage_mentee_grade_req') AND meet_id NOT IN (SELECT meet_id FROM enroll2 WHERE mentor_id = '$sid')" . $append_future_dates_query;
+		//possible meetings are all meetings in the future (also meetings this weekend if its before Thursday) where we are not already a mentor for that weekend (specifically that date, and that date + 1 if it's Saturday, and that date - 1 if it's Sunday; we use both date + 1 and date - 1 because meetings are not on Fridays or Mondays
+		$possible_meetings_mentor_of = "SELECT meet_id FROM meetings WHERE group_id IN (SELECT group_id FROM groups WHERE description <= '$userPage_mentee_grade_req') AND meet_id NOT IN (SELECT meet_id FROM enroll2 WHERE mentor_id = '$sid') AND date NOT IN ((SELECT date FROM meetings INNER JOIN enroll2 ON meetings.meet_id = enroll2.meet_id WHERE mentor_id = '$sid') UNION (SELECT date - 1 FROM meetings INNER JOIN enroll2 ON meetings.meet_id = enroll2.meet_id WHERE mentor_id = '$sid') UNION (SELECT date + 1 FROM meetings INNER JOIN enroll2 ON meetings.meet_id = enroll2.meet_id WHERE mentor_id = '$sid'))" . $append_future_dates_query;
+		
 		$possible_meetings_mentor_of_result = mysqli_query($db2, $possible_meetings_mentor_of);
 		$is_possible_meeting = False;
 		while($meeting = mysqli_fetch_assoc($possible_meetings_mentor_of_result)) {

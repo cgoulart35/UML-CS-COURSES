@@ -52,7 +52,8 @@
 			$append_future_dates_query = "AND date >= '$next_saturday_date'"; 
 		}
 		
-		$possible_meetings_mentor_of = "SELECT meet_id FROM meetings WHERE group_id IN (SELECT group_id FROM groups WHERE description <= '$userPage_mentee_grade_req') AND meet_id NOT IN (SELECT meet_id FROM enroll2 WHERE mentor_id = '$sid')" . $append_future_dates_query;
+		$possible_meetings_mentor_of = "SELECT meet_id FROM meetings WHERE group_id IN (SELECT group_id FROM groups WHERE description <= '$userPage_mentee_grade_req') AND meet_id NOT IN (SELECT meet_id FROM enroll2 WHERE mentor_id = '$sid') AND date NOT IN ((SELECT date FROM meetings INNER JOIN enroll2 ON meetings.meet_id = enroll2.meet_id WHERE mentor_id = '$sid') UNION (SELECT date - 1 FROM meetings INNER JOIN enroll2 ON meetings.meet_id = enroll2.meet_id WHERE mentor_id = '$sid') UNION (SELECT date + 1 FROM meetings INNER JOIN enroll2 ON meetings.meet_id = enroll2.meet_id WHERE mentor_id = '$sid'))" . $append_future_dates_query;
+		
 		$possible_meetings_mentor_of_result = mysqli_query($db2, $possible_meetings_mentor_of);
 		$is_possible_meeting = False;
 		while($meeting = mysqli_fetch_assoc($possible_meetings_mentor_of_result)) {
@@ -77,13 +78,16 @@
 				$add_to_mentors = "INSERT INTO mentors (mentor_id) VALUES ('$sid')";
 				mysqli_query($db2, $add_to_mentors);
 				
-				$select_meetings_with_same_name = "SELECT meet_id FROM meetings WHERE group_id = (SELECT group_id FROM meetings WHERE meet_id = '$mid' LIMIT 1) AND meet_name = (SELECT meet_name FROM meetings WHERE meet_id = '$mid')";
+				$add_meeting_as_mentor = "INSERT INTO enroll2 (meet_id, mentor_id) VALUES ('$mid', '$sid')";
+				mysqli_query($db2, $add_meeting_as_mentor);
+				
+				$select_meetings_with_same_name = "SELECT meet_id FROM meetings WHERE group_id = (SELECT group_id FROM meetings WHERE meet_id = '$mid' LIMIT 1) AND meet_name = (SELECT meet_name FROM meetings WHERE meet_id = '$mid') AND date NOT IN ((SELECT date FROM meetings  WHERE meet_id = '$mid') UNION (SELECT date - 1 FROM meetings  WHERE meet_id = '$mid') UNION (SELECT date + 1 FROM meetings WHERE meet_id = '$mid'))";
 				$result = mysqli_query($db2, $select_meetings_with_same_name);
 				
 				while($meeting = mysqli_fetch_assoc($result)) {
 					$new_mid = $meeting['meet_id'];
-					$add_meeting_as_mentor = "INSERT INTO enroll2 (meet_id, mentor_id) VALUES ('$new_mid', '$sid')";
-					mysqli_query($db2, $add_meeting_as_mentor);
+					$add_meetings_with_same_name_as_mentor = "INSERT INTO enroll2 (meet_id, mentor_id) VALUES ('$new_mid', '$sid')";
+					mysqli_query($db2, $add_meetings_with_same_name_as_mentor);
 				}
 			}
 		}
