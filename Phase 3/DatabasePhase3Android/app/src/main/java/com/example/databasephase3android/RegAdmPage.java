@@ -1,5 +1,6 @@
 package com.example.databasephase3android;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -85,11 +86,23 @@ public class RegAdmPage extends AppCompatActivity {
 
                             //insert into admins
                             UtilityClass.makePOST(String.format("INSERT INTO admins (admin_id) VALUES(%d)", admin_id));
+
+                            startActivity(new Intent(RegAdmPage.this, LoginPage.class));
+
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
                     }
                 }
+            }
+        });
+
+        Button homeBtn = (Button) findViewById(R.id.home);
+        homeBtn.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(RegAdmPage.this, MainActivity.class));
             }
         });
     }

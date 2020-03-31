@@ -1,5 +1,6 @@
 package com.example.databasephase3android;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -112,11 +113,23 @@ public class RegStuPage extends AppCompatActivity {
 
                             //insert into students
                             UtilityClass.makePOST(String.format("INSERT INTO students (student_id, grade, parent_id) VALUES(%d, %d, %d)", student_id, grade, parent_id));
+
+                            startActivity(new Intent(RegStuPage.this, LoginPage.class));
+
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
                     }
                 }
+            }
+        });
+
+        Button homeBtn = (Button) findViewById(R.id.home);
+        homeBtn.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(RegStuPage.this, MainActivity.class));
             }
         });
     }

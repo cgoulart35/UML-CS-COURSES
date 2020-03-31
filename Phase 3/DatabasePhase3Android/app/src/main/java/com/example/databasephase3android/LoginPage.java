@@ -73,5 +73,14 @@ public class LoginPage extends AppCompatActivity {
                 }
             }
         });
+
+        Button homeBtn = (Button) findViewById(R.id.home);
+        homeBtn.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(LoginPage.this, MainActivity.class));
+            }
+        });
     }
 }
