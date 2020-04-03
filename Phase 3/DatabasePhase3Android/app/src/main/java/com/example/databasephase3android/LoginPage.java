@@ -20,7 +20,7 @@ public class LoginPage extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        Button submitBtn = (Button) findViewById(R.id.submit);
+        Button submitBtn = findViewById(R.id.submit);
         submitBtn.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -46,6 +46,7 @@ public class LoginPage extends AppCompatActivity {
                             //set session variables
                             Session session = new Session(MyApplication.getAppContext());
                             session.setLoggedInUser(id, name);
+                            session.setUserToEdit(id, name);
 
                             if (session.isParent()) {
                                 startActivity(new Intent(LoginPage.this, HomeParentPage.class));
@@ -74,7 +75,7 @@ public class LoginPage extends AppCompatActivity {
             }
         });
 
-        Button homeBtn = (Button) findViewById(R.id.home);
+        Button homeBtn = findViewById(R.id.home);
         homeBtn.setOnClickListener(new View.OnClickListener() {
 
             @Override

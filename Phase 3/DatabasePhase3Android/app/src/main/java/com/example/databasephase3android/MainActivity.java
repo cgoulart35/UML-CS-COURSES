@@ -15,7 +15,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Button loginBtn = (Button) findViewById(R.id.login);
+        Button loginBtn = findViewById(R.id.login);
         loginBtn.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -24,7 +24,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        Button regParBtn = (Button) findViewById(R.id.parentRegister);
+        Button regParBtn = findViewById(R.id.parentRegister);
         regParBtn.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -33,7 +33,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        Button regStuBtn = (Button) findViewById(R.id.studentRegister);
+        Button regStuBtn = findViewById(R.id.studentRegister);
         regStuBtn.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -42,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        Button regAdmBtn = (Button) findViewById(R.id.adminRegister);
+        Button regAdmBtn = findViewById(R.id.adminRegister);
         regAdmBtn.setOnClickListener(new View.OnClickListener() {
 
             @Override

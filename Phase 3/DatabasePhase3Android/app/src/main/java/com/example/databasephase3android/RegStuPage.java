@@ -20,7 +20,7 @@ public class RegStuPage extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_reg_stu);
 
-        Button submitBtn = (Button) findViewById(R.id.submit);
+        Button submitBtn = findViewById(R.id.submit);
         submitBtn.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -124,7 +124,7 @@ public class RegStuPage extends AppCompatActivity {
             }
         });
 
-        Button homeBtn = (Button) findViewById(R.id.home);
+        Button homeBtn = findViewById(R.id.home);
         homeBtn.setOnClickListener(new View.OnClickListener() {
 
             @Override

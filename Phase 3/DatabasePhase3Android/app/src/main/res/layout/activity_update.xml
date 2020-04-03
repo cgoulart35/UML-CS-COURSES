@@ -19,8 +19,8 @@
 
     <EditText
         android:id="@+id/name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="330dp"
+        android:layout_height="38dp"
         android:ems="10"
         android:hint="Name"
         android:inputType="textPersonName"
@@ -32,8 +32,8 @@
 
     <EditText
         android:id="@+id/grade"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="322dp"
+        android:layout_height="39dp"
         android:ems="10"
         android:hint="Grade"
         android:inputType="number"
@@ -46,8 +46,8 @@
 
     <EditText
         android:id="@+id/phone"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="330dp"
+        android:layout_height="39dp"
         android:ems="10"
         android:hint="Phone"
         android:inputType="phone"
@@ -60,8 +60,8 @@
 
     <EditText
         android:id="@+id/email"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="328dp"
+        android:layout_height="41dp"
         android:ems="10"
         android:hint="Email"
         android:inputType="textEmailAddress"
@@ -74,8 +74,8 @@
 
     <EditText
         android:id="@+id/password"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="323dp"
+        android:layout_height="40dp"
         android:ems="10"
         android:hint="Password"
         android:inputType="textPassword"

@@ -17,7 +17,13 @@ public class HomeStudentPage extends AppCompatActivity {
 
         final Session session = new Session(MyApplication.getAppContext());
 
-        Button logoutBtn = (Button) findViewById(R.id.logout);
+        TextView welcomeUser = findViewById (R.id.welcome);
+        welcomeUser.setText("Welcome " + session.getLoggedInUserName() + "!");
+
+        TextView usersPage = findViewById (R.id.usersPage);
+        usersPage.setText(session.getUserToEditName() + "'s Student Page:");
+
+        Button logoutBtn = findViewById(R.id.logout);
         logoutBtn.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -27,7 +33,7 @@ public class HomeStudentPage extends AppCompatActivity {
             }
         });
 
-        Button updateAccount = (Button) findViewById(R.id.update);
+        Button updateAccount = findViewById(R.id.update);
         updateAccount.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -35,8 +41,5 @@ public class HomeStudentPage extends AppCompatActivity {
                 startActivity(new Intent(HomeStudentPage.this, UpdateAccount.class));
             }
         });
-
-        TextView welcomeUser = (TextView) findViewById (R.id.welcome);
-        welcomeUser.setText("Welcome " + session.getLoggedInUserName() + "!");
     }
 }
