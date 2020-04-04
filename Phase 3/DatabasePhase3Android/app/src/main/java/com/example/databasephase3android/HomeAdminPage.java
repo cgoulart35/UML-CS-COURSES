@@ -102,8 +102,8 @@ public class HomeAdminPage extends AppCompatActivity {
         JSONArray getUsersArray = UtilityClass.makePOST(String.format("SELECT id, name FROM users"));
 
         for (int i = 2; i < getUsersArray.length() + 2; i++) {
-            String name = "";
             int id = 0;
+            String name = "";
             String grade = "N/A";
             try {
                 JSONObject getChildObject = getUsersArray.getJSONObject(i - 2);

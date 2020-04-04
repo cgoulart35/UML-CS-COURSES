@@ -120,6 +120,15 @@ public class Session {
         return isUserToEditAdmin;
     }
 
+    public void setMeetingToViewID(int meetingToViewID) {
+        prefs.edit().putInt("meetingToViewID", meetingToViewID).commit();
+    }
+
+    public int getMeetingToViewID() {
+        int meetingToViewID = prefs.getInt("meetingToViewID", 0);
+        return meetingToViewID;
+    }
+
     public void logoutUser() {
         prefs.edit().clear();
     }
