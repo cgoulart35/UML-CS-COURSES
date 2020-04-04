@@ -30,6 +30,16 @@ public class HomeAdminPage extends AppCompatActivity {
         TextView usersPage = findViewById (R.id.usersPage);
         usersPage.setText(session.getUserToEditName() + "'s Admin Page:");
 
+        Button homeBtn = findViewById(R.id.home);
+        homeBtn.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                session.setUserToEdit(session.getLoggedInUserID(), session.getLoggedInUserName());
+                startActivity(new Intent(HomeAdminPage.this, HomeAdminPage.class));
+            }
+        });
+
         Button logoutBtn = findViewById(R.id.logout);
         logoutBtn.setOnClickListener(new View.OnClickListener() {
 
@@ -74,12 +84,17 @@ public class HomeAdminPage extends AppCompatActivity {
         name_col.setText("NAME:");
         name_col.setTypeface(null, Typeface.BOLD);
 
+        TextView grade_col = new TextView(this);
+        grade_col.setText("GRADE:");
+        grade_col.setTypeface(null, Typeface.BOLD);
+
         TextView edit_col  = new TextView(this);
-        edit_col.setText("EDIT:");
+        edit_col.setText("EDIT USER:");
         edit_col.setTypeface(null, Typeface.BOLD);
 
         headers.addView(id_col, new TableRow.LayoutParams(0, TableRow.LayoutParams.WRAP_CONTENT, 1f));
         headers.addView(name_col, new TableRow.LayoutParams(0, TableRow.LayoutParams.WRAP_CONTENT, 1f));
+        headers.addView(grade_col, new TableRow.LayoutParams(0, TableRow.LayoutParams.WRAP_CONTENT, 1f));
         headers.addView(edit_col, new TableRow.LayoutParams(0, TableRow.LayoutParams.WRAP_CONTENT, 1f));
         usersTable.addView(headers, 1);
 
@@ -89,10 +104,16 @@ public class HomeAdminPage extends AppCompatActivity {
         for (int i = 2; i < getUsersArray.length() + 2; i++) {
             String name = "";
             int id = 0;
+            String grade = "N/A";
             try {
                 JSONObject getChildObject = getUsersArray.getJSONObject(i - 2);
                 name = getChildObject.getString("name");
                 id = getChildObject.getInt("id");
+                if (UtilityClass.isUserAStudent(id)) {
+                    JSONArray getGradeArray = UtilityClass.makePOST(String.format("SELECT grade FROM students WHERE student_id = %d", id));
+                    JSONObject getGradeObject = getGradeArray.getJSONObject(0);
+                    grade = Integer.toString(getGradeObject.getInt("grade"));
+                }
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -107,8 +128,19 @@ public class HomeAdminPage extends AppCompatActivity {
             TextView nameView = new TextView(this);
             nameView.setText(name);
 
+            TextView gradeView = new TextView(this);
+            gradeView.setText(grade);
+
             Button edit = new Button(this);
-            edit.setText("Edit");
+            if (UtilityClass.isUserAStudent(id)) {
+                edit.setText("Edit Student");
+            }
+            else if (UtilityClass.isUserAParent(id)) {
+                edit.setText("Edit Parent");
+            }
+            else if (UtilityClass.isUserAnAdmin(id)) {
+                edit.setText("Edit Admin");
+            }
             edit.setTag(R.string.id_tag, id);
             edit.setTag(R.string.name_tag, name);
             edit.setOnClickListener(new View.OnClickListener() {
@@ -130,6 +162,7 @@ public class HomeAdminPage extends AppCompatActivity {
 
             row.addView(idView, new TableRow.LayoutParams(0, TableRow.LayoutParams.WRAP_CONTENT, 1f));
             row.addView(nameView, new TableRow.LayoutParams(0, TableRow.LayoutParams.WRAP_CONTENT, 1f));
+            row.addView(gradeView, new TableRow.LayoutParams(0, TableRow.LayoutParams.WRAP_CONTENT, 1f));
             row.addView(edit, new TableRow.LayoutParams(0, TableRow.LayoutParams.WRAP_CONTENT, 1f));
             usersTable.addView(row,i);
         }

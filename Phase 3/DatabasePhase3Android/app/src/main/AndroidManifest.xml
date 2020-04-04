@@ -68,6 +68,36 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
+        <activity android:name=".MentorOfPage">
+            <intent-filter>
+                <action android:name="com.example.databasephase3android.MentorOfPage" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".PossibleMentorOfPage">
+            <intent-filter>
+                <action android:name="com.example.databasephase3android.PossibleMentorOfPage" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".MenteeOfPage">
+            <intent-filter>
+                <action android:name="com.example.databasephase3android.MenteeOfPage" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".PossibleMenteeOfPage">
+            <intent-filter>
+                <action android:name="com.example.databasephase3android.PossibleMenteeOfPage" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".MeetingPage">
+            <intent-filter>
+                <action android:name="com.example.databasephase3android.MeetingPage" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>

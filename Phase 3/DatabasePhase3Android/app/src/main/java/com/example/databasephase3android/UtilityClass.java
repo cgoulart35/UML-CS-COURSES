@@ -1,10 +1,7 @@
 package com.example.databasephase3android;
 
-import android.content.Context;
-import android.content.SharedPreferences;
 import android.net.SSLCertificateSocketFactory;
 import android.os.StrictMode;
-import android.preference.PreferenceManager;
 import android.util.Log;
 
 import org.apache.http.conn.ssl.AllowAllHostnameVerifier;
@@ -78,5 +75,30 @@ public class UtilityClass {
             exception.printStackTrace();
         }
         return null;
+    }
+
+    public static boolean isUserAParent(int id) {
+        //figure out with queries if student, parent, or admin
+        JSONArray isParentQueryResult = UtilityClass.makePOST(String.format("SELECT * FROM parents WHERE parent_id = %d", id));
+        if (isParentQueryResult != null && isParentQueryResult.length() > 0) {
+            return true;
+        }
+        return false;
+    }
+
+    public static boolean isUserAStudent(int id) {
+        JSONArray isStudentQueryResult = UtilityClass.makePOST(String.format("SELECT * FROM students WHERE student_id = %d", id));
+        if (isStudentQueryResult != null && isStudentQueryResult.length() > 0) {
+            return true;
+        }
+        return false;
+    }
+
+    public static boolean isUserAnAdmin(int id) {
+        JSONArray isAdminQueryResult = UtilityClass.makePOST(String.format("SELECT * FROM admins WHERE admin_id = %d", id));
+        if (isAdminQueryResult != null && isAdminQueryResult.length() > 0) {
+            return true;
+        }
+        return false;
     }
 }
