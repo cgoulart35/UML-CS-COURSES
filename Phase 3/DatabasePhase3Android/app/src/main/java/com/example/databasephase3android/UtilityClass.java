@@ -101,4 +101,68 @@ public class UtilityClass {
         }
         return false;
     }
+
+    public static boolean isUserMentorOfMeeting(int userID, int meetingID) {
+        JSONArray isUserMentorOfMeetingArray = UtilityClass.makePOST(String.format("SELECT * FROM users INNER JOIN enroll2 ON enroll2.mentor_id = users.id WHERE meet_id = %d", meetingID));
+        for (int i = 0; i < isUserMentorOfMeetingArray.length(); i++) {
+            try {
+                JSONObject userObject = isUserMentorOfMeetingArray.getJSONObject(i);
+                int mentorID = userObject.getInt("mentor_id");
+                if (userID == mentorID) {
+                    return true;
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+        return false;
+    }
+
+    public static boolean isUserMenteeOfMeeting(int userID, int meetingID) {
+        JSONArray isUserMenteeOfMeetingArray = UtilityClass.makePOST(String.format("SELECT * FROM users INNER JOIN enroll ON enroll.mentee_id = users.id WHERE meet_id = %d", meetingID));
+        for (int i = 0; i < isUserMenteeOfMeetingArray.length(); i++) {
+            try {
+                JSONObject userObject = isUserMenteeOfMeetingArray.getJSONObject(i);
+                int mentorID = userObject.getInt("mentee_id");
+                if (userID == mentorID) {
+                    return true;
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+        return false;
+    }
+
+    public static boolean isUserParentOfMentorOfMeeting(int userID, int meetingID) {
+        JSONArray isUserParentOfMentorOfMeetingArray = UtilityClass.makePOST(String.format("SELECT parent_id FROM students WHERE student_id IN (SELECT mentor_id FROM enroll2 WHERE meet_id = %d)", meetingID));
+        for (int i = 0; i < isUserParentOfMentorOfMeetingArray.length(); i++) {
+            try {
+                JSONObject userObject = isUserParentOfMentorOfMeetingArray.getJSONObject(i);
+                int parentID = userObject.getInt("parent_id");
+                if (userID == parentID) {
+                    return true;
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+        return false;
+    }
+
+    public static boolean isUserParentOfMenteeOfMeeting(int userID, int meetingID) {
+        JSONArray isUserParentOfMenteeOfMeetingArray = UtilityClass.makePOST(String.format("SELECT parent_id FROM students WHERE student_id IN (SELECT mentee_id FROM enroll WHERE meet_id = %d)", meetingID));
+        for (int i = 0; i < isUserParentOfMenteeOfMeetingArray.length(); i++) {
+            try {
+                JSONObject userObject = isUserParentOfMenteeOfMeetingArray.getJSONObject(i);
+                int parentID = userObject.getInt("parent_id");
+                if (userID == parentID) {
+                    return true;
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+        return false;
+    }
 }

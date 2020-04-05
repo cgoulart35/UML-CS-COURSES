@@ -66,6 +66,7 @@ public class HomeStudentPage extends AppCompatActivity {
         });
 
         // check to see if student can be a mentor, and if so display buttons
+        // check to see if student can be a mentee, and if so display buttons
         JSONArray getUserGroupArray = UtilityClass.makePOST(String.format("SELECT * FROM groups WHERE description = (SELECT grade FROM students WHERE student_id = %d LIMIT 1) LIMIT 1", session.getUserToEditID()));
         boolean mentor_grade_req = true;
         boolean mentee_grade_req = true;;
@@ -101,7 +102,6 @@ public class HomeStudentPage extends AppCompatActivity {
             possibleMentorOf.setVisibility(View.INVISIBLE);
         }
 
-        // check to see if student can be a mentee, and if so display buttons
         Button menteeOf = findViewById(R.id.menteeOf);
         Button possibleMenteeOf = findViewById(R.id.possibleMenteeOf);
         if (!mentor_grade_req) {
