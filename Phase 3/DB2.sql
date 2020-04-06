@@ -339,16 +339,16 @@ INSERT INTO `time_slot` (`day_of_the_week`, `start_time`, `end_time`) VALUES ('S
 INSERT INTO `time_slot` (`day_of_the_week`, `start_time`, `end_time`) VALUES ('Sunday', '17:00:00', '18:00:00');
 INSERT INTO `time_slot` (`day_of_the_week`, `start_time`, `end_time`) VALUES ('Saturday', '18:00:00', '19:00:00');
 
-INSERT INTO `meetings` (`meet_name`, `date`, `time_slot_id`, `capacity`, `announcement`, `group_id`) VALUES ('English', '2020-03-28', 7, 9, 'Grade 6 English - Announcement!', 1);
-INSERT INTO `meetings` (`meet_name`, `date`, `time_slot_id`, `capacity`, `announcement`, `group_id`) VALUES ('Math', '2020-03-29', 8, 9, 'Grade 6 Math - Announcement!', 1);
-INSERT INTO `meetings` (`meet_name`, `date`, `time_slot_id`, `capacity`, `announcement`, `group_id`) VALUES ('English', '2020-03-28', 7, 9, 'Grade 7 English - Announcement!', 2);
-INSERT INTO `meetings` (`meet_name`, `date`, `time_slot_id`, `capacity`, `announcement`, `group_id`) VALUES ('Math', '2020-03-29', 8, 9, 'Grade 7 Math - Announcement!', 2);
-INSERT INTO `meetings` (`meet_name`, `date`, `time_slot_id`, `capacity`, `announcement`, `group_id`) VALUES ('English', '2020-04-04', 7, 9, 'Grade 8 English - Announcement!', 3);
-INSERT INTO `meetings` (`meet_name`, `date`, `time_slot_id`, `capacity`, `announcement`, `group_id`) VALUES ('Math', '2020-04-04', 9, 9, 'Grade 8 Math - Announcement!', 3);
-INSERT INTO `meetings` (`meet_name`, `date`, `time_slot_id`, `capacity`, `announcement`, `group_id`) VALUES ('English', '2020-04-11', 7, 9, 'Grade 9 English - Announcement!', 4);
-INSERT INTO `meetings` (`meet_name`, `date`, `time_slot_id`, `capacity`, `announcement`, `group_id`) VALUES ('Math', '2020-04-11', 9, 9, 'Grade 9 Math - Announcement!', 4);
-INSERT INTO `meetings` (`meet_name`, `date`, `time_slot_id`, `capacity`, `announcement`, `group_id`) VALUES ('Add Mentors Test', '2020-03-21', 7, 9, 'The admin should be prompted to add mentors.', 4);
-INSERT INTO `meetings` (`meet_name`, `date`, `time_slot_id`, `capacity`, `announcement`, `group_id`) VALUES ('Cancel Meeting Test', '2020-03-21', 7, 9, 'This meeting should be canceled because there are less than 3 mentees.', 4);
+INSERT INTO `meetings` (`meet_name`, `date`, `time_slot_id`, `capacity`, `announcement`, `group_id`) VALUES ('English', '2020-05-02', 7, 9, 'Grade 6 English - Announcement!', 1);
+INSERT INTO `meetings` (`meet_name`, `date`, `time_slot_id`, `capacity`, `announcement`, `group_id`) VALUES ('Math', '2020-05-03', 8, 9, 'Grade 6 Math - Announcement!', 1);
+INSERT INTO `meetings` (`meet_name`, `date`, `time_slot_id`, `capacity`, `announcement`, `group_id`) VALUES ('English', '2020-05-02', 7, 9, 'Grade 7 English - Announcement!', 2);
+INSERT INTO `meetings` (`meet_name`, `date`, `time_slot_id`, `capacity`, `announcement`, `group_id`) VALUES ('Math', '2020-05-03', 8, 9, 'Grade 7 Math - Announcement!', 2);
+INSERT INTO `meetings` (`meet_name`, `date`, `time_slot_id`, `capacity`, `announcement`, `group_id`) VALUES ('English', '2020-05-09', 7, 9, 'Grade 8 English - Announcement!', 3);
+INSERT INTO `meetings` (`meet_name`, `date`, `time_slot_id`, `capacity`, `announcement`, `group_id`) VALUES ('Math', '2020-05-09', 9, 9, 'Grade 8 Math - Announcement!', 3);
+INSERT INTO `meetings` (`meet_name`, `date`, `time_slot_id`, `capacity`, `announcement`, `group_id`) VALUES ('English', '2020-05-16', 7, 9, 'Grade 9 English - Announcement!', 4);
+INSERT INTO `meetings` (`meet_name`, `date`, `time_slot_id`, `capacity`, `announcement`, `group_id`) VALUES ('Math', '2020-05-16', 9, 9, 'Grade 9 Math - Announcement!', 4);
+INSERT INTO `meetings` (`meet_name`, `date`, `time_slot_id`, `capacity`, `announcement`, `group_id`) VALUES ('Add Mentors Test', '2020-04-25', 7, 9, 'The admin should be prompted to add mentors.', 4);
+INSERT INTO `meetings` (`meet_name`, `date`, `time_slot_id`, `capacity`, `announcement`, `group_id`) VALUES ('Cancel Meeting Test', '2020-04-25', 7, 9, 'This meeting should be canceled because there are less than 3 mentees.', 4);
 
 INSERT INTO `enroll` (`meet_id`, `mentee_id`) VALUES (100, 16);
 INSERT INTO `enroll` (`meet_id`, `mentee_id`) VALUES (100, 17);
@@ -399,14 +399,14 @@ INSERT INTO `enroll2` (`meet_id`, `mentor_id`) VALUES (107, 61);
 INSERT INTO `enroll2` (`meet_id`, `mentor_id`) VALUES (109, 28);
 INSERT INTO `enroll2` (`meet_id`, `mentor_id`) VALUES (109, 29);
 
-INSERT INTO `material` (`title`, `author`, `type`, `url`, `assigned_date`, `notes`) VALUES ('Grade 6 English Material', 'Baby Yoda', 'Reading Assignment', 'https://google.com', '2020-03-28', 'Grade 6 English Material Notes');
-INSERT INTO `material` (`title`, `author`, `type`, `url`, `assigned_date`, `notes`) VALUES ('Grade 6 Math Material', 'Tiger Woods', 'Math Assignment', 'https://bing.com', '2020-03-29', 'Grade 6 Math Material Notes');
-INSERT INTO `material` (`title`, `author`, `type`, `url`, `assigned_date`, `notes`) VALUES ('Grade 7 English Material', 'Baby Yoda', 'Reading Assignment', 'https://google.com', '2020-03-28', 'Grade 7 English Material Notes');
-INSERT INTO `material` (`title`, `author`, `type`, `url`, `assigned_date`, `notes`) VALUES ('Grade 7 Math Material', 'Tiger Woods', 'Math Assignment', 'https://bing.com', '2020-03-29', 'Grade 7 Math Material Notes');
-INSERT INTO `material` (`title`, `author`, `type`, `url`, `assigned_date`, `notes`) VALUES ('Grade 8 English Material', 'Baby Yoda', 'Reading Assignment', 'https://google.com', '2020-04-04', 'Grade 8 English Material Notes');
-INSERT INTO `material` (`title`, `author`, `type`, `url`, `assigned_date`, `notes`) VALUES ('Grade 8 Math Material', 'Tiger Woods', 'Math Assignment', 'https://bing.com', '2020-04-04', 'Grade 8 Math Material Notes');
-INSERT INTO `material` (`title`, `author`, `type`, `url`, `assigned_date`, `notes`) VALUES ('Grade 9 English Material', 'Baby Yoda', 'Reading Assignment', 'https://google.com', '2020-04-11', 'Grade 9 English Material Notes');
-INSERT INTO `material` (`title`, `author`, `type`, `url`, `assigned_date`, `notes`) VALUES ('Grade 9 Math Material', 'Tiger Woods', 'Math Assignment', 'https://bing.com', '2020-04-11', 'Grade 9 Math Material Notes');
+INSERT INTO `material` (`title`, `author`, `type`, `url`, `assigned_date`, `notes`) VALUES ('Grade 6 English Material', 'Baby Yoda', 'Reading Assignment', 'https://google.com', '2020-05-02', 'Grade 6 English Material Notes');
+INSERT INTO `material` (`title`, `author`, `type`, `url`, `assigned_date`, `notes`) VALUES ('Grade 6 Math Material', 'Tiger Woods', 'Math Assignment', 'https://bing.com', '2020-05-03', 'Grade 6 Math Material Notes');
+INSERT INTO `material` (`title`, `author`, `type`, `url`, `assigned_date`, `notes`) VALUES ('Grade 7 English Material', 'Baby Yoda', 'Reading Assignment', 'https://google.com', '2020-05-02', 'Grade 7 English Material Notes');
+INSERT INTO `material` (`title`, `author`, `type`, `url`, `assigned_date`, `notes`) VALUES ('Grade 7 Math Material', 'Tiger Woods', 'Math Assignment', 'https://bing.com', '2020-05-03', 'Grade 7 Math Material Notes');
+INSERT INTO `material` (`title`, `author`, `type`, `url`, `assigned_date`, `notes`) VALUES ('Grade 8 English Material', 'Baby Yoda', 'Reading Assignment', 'https://google.com', '2020-05-09', 'Grade 8 English Material Notes');
+INSERT INTO `material` (`title`, `author`, `type`, `url`, `assigned_date`, `notes`) VALUES ('Grade 8 Math Material', 'Tiger Woods', 'Math Assignment', 'https://bing.com', '2020-05-09', 'Grade 8 Math Material Notes');
+INSERT INTO `material` (`title`, `author`, `type`, `url`, `assigned_date`, `notes`) VALUES ('Grade 9 English Material', 'Baby Yoda', 'Reading Assignment', 'https://google.com', '2020-05-16', 'Grade 9 English Material Notes');
+INSERT INTO `material` (`title`, `author`, `type`, `url`, `assigned_date`, `notes`) VALUES ('Grade 9 Math Material', 'Tiger Woods', 'Math Assignment', 'https://bing.com', '2020-05-16', 'Grade 9 Math Material Notes');
 
 INSERT INTO `assign` (`meet_id`, `material_id`) VALUES (100, 12);
 INSERT INTO `assign` (`meet_id`, `material_id`) VALUES (101, 13);
