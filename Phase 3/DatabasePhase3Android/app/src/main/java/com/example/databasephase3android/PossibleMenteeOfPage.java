@@ -151,7 +151,7 @@ public class PossibleMenteeOfPage extends AppCompatActivity {
 
         // get all possible meetings user can mentee
         JSONArray getMeetingsArray = UtilityClass.makePOST(String.format("SELECT * FROM meetings WHERE group_id = %d AND meet_id NOT IN (SELECT meet_id FROM enroll WHERE mentee_id = %d) AND (time_slot_id, date) NOT IN (SELECT time_slot_id, date FROM meetings INNER JOIN enroll ON meetings.meet_id = enroll.meet_id WHERE mentee_id = %d)", group_id, session.getUserToEditID(), session.getUserToEditID()) + append_future_dates_query);
-
+        int number_of_rejected_meetings = 0;
         for (int i = 2; i < getMeetingsArray.length() + 2; i++) {
             int id = 0;
             String name = "";
@@ -196,7 +196,7 @@ public class PossibleMenteeOfPage extends AppCompatActivity {
                 try {
                     JSONObject class_type_object = types_of_classes_enrolled_in_that_weekend_query.getJSONObject(x);
                     String class_type = class_type_object.getString("meet_name");
-                    if (name == class_type) {
+                    if (name.equals(class_type)) {
                         enrolled_in_type_already_that_weekend = true;
                     }
                 } catch (JSONException e) {
@@ -290,7 +290,7 @@ public class PossibleMenteeOfPage extends AppCompatActivity {
                             // add other meetings with the same name as well (that don't have 6 mentees); we don't use meeting id because every meeting has a different id even if its the same meeting/section that is meeting 2 weeks/etc. later; we also don't use group_id because group_id is the id of the grade level and we don't want to add all sections of all meetings in that grade at once, only the same sections of meetings
                             boolean couldntAddMeetingCount = false;
                             boolean couldntAddMeetingType = false;
-                            JSONArray meetings_with_same_name_array = UtilityClass.makePOST(String.format("SELECT * FROM meetings WHERE group_id = (SELECT group_id FROM meetings WHERE meet_id = %d LIMIT 1) AND meet_name = (SELECT meet_name FROM meetings WHERE meet_id = %d)", mid, mid));
+                            JSONArray meetings_with_same_name_array = UtilityClass.makePOST(String.format("SELECT * FROM meetings WHERE group_id = (SELECT group_id FROM meetings WHERE meet_id = %d LIMIT 1) AND meet_name = (SELECT meet_name FROM meetings WHERE meet_id = %d) AND meet_id != %d", mid, mid, mid));
                             for (int k = 0; k < meetings_with_same_name_array.length(); k++) {
                                 int new_mid = 0;
                                 String new_name = "";
@@ -299,7 +299,7 @@ public class PossibleMenteeOfPage extends AppCompatActivity {
                                     JSONObject meeting_with_same_name_object = meetings_with_same_name_array.getJSONObject(k);
                                     new_mid = meeting_with_same_name_object.getInt("meet_id");
                                     new_name = meeting_with_same_name_object.getString("meet_name");
-                                    new_date = meeting_with_same_name_object.getString("meet_date");
+                                    new_date = meeting_with_same_name_object.getString("date");
 
                                     // get count of how many mentees are already enrolled
                                     JSONArray check_new_mentee_count_array = UtilityClass.makePOST(String.format("SELECT count(mentee_id) FROM enroll WHERE meet_id = %d LIMIT 1", new_mid));
@@ -339,7 +339,7 @@ public class PossibleMenteeOfPage extends AppCompatActivity {
                                             try {
                                                 JSONObject class_type_object = types_of_classes_enrolled_in_that_weekend_query.getJSONObject(x);
                                                 String class_type = class_type_object.getString("meet_name");
-                                                if (new_name == class_type) {
+                                                if (new_name.equals(class_type)) {
                                                     enrolled_in_type_already_that_weekend_new = true;
                                                 }
                                             } catch (JSONException e) {
@@ -391,7 +391,10 @@ public class PossibleMenteeOfPage extends AppCompatActivity {
                 row.addView(viewBtn, new TableRow.LayoutParams(0, TableRow.LayoutParams.WRAP_CONTENT, 1f));
                 row.addView(addBtn, new TableRow.LayoutParams(0, TableRow.LayoutParams.WRAP_CONTENT, 1f));
                 row.addView(addFutureBtn, new TableRow.LayoutParams(0, TableRow.LayoutParams.WRAP_CONTENT, 1f));
-                meetingsTable.addView(row, i);
+                meetingsTable.addView(row, i - number_of_rejected_meetings);
+            }
+            else {
+                number_of_rejected_meetings++;
             }
         }
     }
