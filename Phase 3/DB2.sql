@@ -251,6 +251,16 @@ INSERT INTO `users` (`name`, `email`, `password`, `phone`) VALUES ('Lori Hale', 
 INSERT INTO `users` (`name`, `email`, `password`, `phone`) VALUES ('Admin User', 'admin@gmail.com', 'password', '5084313590');
 INSERT INTO `users` (`name`, `email`, `password`, `phone`) VALUES ('Michael Lee', 'MichaelLee@gmail.com', 'password', '5084313590');
 INSERT INTO `users` (`name`, `email`, `password`, `phone`) VALUES ('Lori Lee', 'LoriLee@gmail.com', 'password', '5084313590');
+INSERT INTO `users` (`name`, `email`, `password`, `phone`) VALUES ('Mike Page', 'MikePage@gmail.com', 'password', '5084313590');
+INSERT INTO `users` (`name`, `email`, `password`, `phone`) VALUES ('Tom Mich', 'TomMich@gmail.com', 'password', '5084313590');
+INSERT INTO `users` (`name`, `email`, `password`, `phone`) VALUES ('Joe Kim', 'JoeKim@gmail.com', 'password', '5084313590');
+INSERT INTO `users` (`name`, `email`, `password`, `phone`) VALUES ('Charles Wilson', 'CharlesWilson@gmail.com', 'password', '5084313590');
+INSERT INTO `users` (`name`, `email`, `password`, `phone`) VALUES ('Eric Smith', 'EricSmith@gmail.com', 'password', '5084313590');
+INSERT INTO `users` (`name`, `email`, `password`, `phone`) VALUES ('Lori Page', 'LoriPage@gmail.com', 'password', '5084313590');
+INSERT INTO `users` (`name`, `email`, `password`, `phone`) VALUES ('Lori Mich', 'LoriMich@gmail.com', 'password', '5084313590');
+INSERT INTO `users` (`name`, `email`, `password`, `phone`) VALUES ('Lori Kim', 'LoriKim@gmail.com', 'password', '5084313590');
+INSERT INTO `users` (`name`, `email`, `password`, `phone`) VALUES ('Lori Wilson', 'LoriWilson@gmail.com', 'password', '5084313590');
+INSERT INTO `users` (`name`, `email`, `password`, `phone`) VALUES ('Lori Smith', 'LoriSmith@gmail.com', 'password', '5084313590');
 
 INSERT INTO `admins` (`admin_id`) VALUES (60);
 
@@ -277,6 +287,11 @@ INSERT INTO `parents` (`parent_id`) VALUES (57);
 INSERT INTO `parents` (`parent_id`) VALUES (58);
 INSERT INTO `parents` (`parent_id`) VALUES (59);
 INSERT INTO `parents` (`parent_id`) VALUES (62);
+INSERT INTO `parents` (`parent_id`) VALUES (68);
+INSERT INTO `parents` (`parent_id`) VALUES (69);
+INSERT INTO `parents` (`parent_id`) VALUES (70);
+INSERT INTO `parents` (`parent_id`) VALUES (71);
+INSERT INTO `parents` (`parent_id`) VALUES (72);
 
 INSERT INTO `students` (`student_id`, `parent_id`, `grade`) VALUES (16, 38, 6);
 INSERT INTO `students` (`student_id`, `parent_id`, `grade`) VALUES (17, 39, 6);
@@ -292,6 +307,11 @@ INSERT INTO `students` (`student_id`, `parent_id`, `grade`) VALUES (26, 48, 9);
 INSERT INTO `students` (`student_id`, `parent_id`, `grade`) VALUES (27, 49, 9);
 INSERT INTO `students` (`student_id`, `parent_id`, `grade`) VALUES (28, 50, 9);
 INSERT INTO `students` (`student_id`, `parent_id`, `grade`) VALUES (29, 51, 9);
+INSERT INTO `students` (`student_id`, `parent_id`, `grade`) VALUES (63, 68, 9);
+INSERT INTO `students` (`student_id`, `parent_id`, `grade`) VALUES (64, 69, 9);
+INSERT INTO `students` (`student_id`, `parent_id`, `grade`) VALUES (65, 70, 9);
+INSERT INTO `students` (`student_id`, `parent_id`, `grade`) VALUES (66, 71, 9);
+INSERT INTO `students` (`student_id`, `parent_id`, `grade`) VALUES (67, 72, 9);
 INSERT INTO `students` (`student_id`, `parent_id`, `grade`) VALUES (30, 52, 10);
 INSERT INTO `students` (`student_id`, `parent_id`, `grade`) VALUES (31, 53, 10);
 INSERT INTO `students` (`student_id`, `parent_id`, `grade`) VALUES (32, 54, 11);
@@ -326,6 +346,9 @@ INSERT INTO `mentees` (`mentee_id`) VALUES (24);
 INSERT INTO `mentees` (`mentee_id`) VALUES (25);
 INSERT INTO `mentees` (`mentee_id`) VALUES (26);
 INSERT INTO `mentees` (`mentee_id`) VALUES (27);
+INSERT INTO `mentees` (`mentee_id`) VALUES (63);
+INSERT INTO `mentees` (`mentee_id`) VALUES (64);
+INSERT INTO `mentees` (`mentee_id`) VALUES (65);
 
 INSERT INTO `groups` (`name`, `description`, `mentor_grade_req`, `mentee_grade_req`) VALUES ('Grade 6', 6, 9, NULL);
 INSERT INTO `groups` (`name`, `description`, `mentor_grade_req`, `mentee_grade_req`) VALUES ('Grade 7', 7, 10, NULL);
@@ -347,8 +370,7 @@ INSERT INTO `meetings` (`meet_name`, `date`, `time_slot_id`, `capacity`, `announ
 INSERT INTO `meetings` (`meet_name`, `date`, `time_slot_id`, `capacity`, `announcement`, `group_id`) VALUES ('Math', '2020-05-09', 9, 9, 'Grade 8 Math - Announcement!', 3);
 INSERT INTO `meetings` (`meet_name`, `date`, `time_slot_id`, `capacity`, `announcement`, `group_id`) VALUES ('English', '2020-05-16', 7, 9, 'Grade 9 English - Announcement!', 4);
 INSERT INTO `meetings` (`meet_name`, `date`, `time_slot_id`, `capacity`, `announcement`, `group_id`) VALUES ('Math', '2020-05-16', 9, 9, 'Grade 9 Math - Announcement!', 4);
-INSERT INTO `meetings` (`meet_name`, `date`, `time_slot_id`, `capacity`, `announcement`, `group_id`) VALUES ('Add Mentors Test', '2020-04-25', 7, 9, 'The admin should be prompted to add mentors.', 4);
-INSERT INTO `meetings` (`meet_name`, `date`, `time_slot_id`, `capacity`, `announcement`, `group_id`) VALUES ('Cancel Meeting Test', '2020-04-25', 7, 9, 'This meeting should be canceled because there are less than 3 mentees.', 4);
+INSERT INTO `meetings` (`meet_name`, `date`, `time_slot_id`, `capacity`, `announcement`, `group_id`) VALUES ('English', '2020-05-17', 8, 9, 'Grade 9 English - Announcement!', 4);
 
 INSERT INTO `enroll` (`meet_id`, `mentee_id`) VALUES (100, 16);
 INSERT INTO `enroll` (`meet_id`, `mentee_id`) VALUES (100, 17);
@@ -374,11 +396,10 @@ INSERT INTO `enroll` (`meet_id`, `mentee_id`) VALUES (106, 27);
 INSERT INTO `enroll` (`meet_id`, `mentee_id`) VALUES (107, 25);
 INSERT INTO `enroll` (`meet_id`, `mentee_id`) VALUES (107, 26);
 INSERT INTO `enroll` (`meet_id`, `mentee_id`) VALUES (107, 27);
-INSERT INTO `enroll` (`meet_id`, `mentee_id`) VALUES (108, 16);
-INSERT INTO `enroll` (`meet_id`, `mentee_id`) VALUES (108, 17);
-INSERT INTO `enroll` (`meet_id`, `mentee_id`) VALUES (108, 18);
-INSERT INTO `enroll` (`meet_id`, `mentee_id`) VALUES (109, 16);
-INSERT INTO `enroll` (`meet_id`, `mentee_id`) VALUES (109, 18);
+INSERT INTO `enroll` (`meet_id`, `mentee_id`) VALUES (108, 63);
+INSERT INTO `enroll` (`meet_id`, `mentee_id`) VALUES (108, 64);
+INSERT INTO `enroll` (`meet_id`, `mentee_id`) VALUES (108, 65);
+
 
 INSERT INTO `enroll2` (`meet_id`, `mentor_id`) VALUES (100, 28);
 INSERT INTO `enroll2` (`meet_id`, `mentor_id`) VALUES (100, 29);
@@ -396,8 +417,8 @@ INSERT INTO `enroll2` (`meet_id`, `mentor_id`) VALUES (106, 35);
 INSERT INTO `enroll2` (`meet_id`, `mentor_id`) VALUES (106, 36);
 INSERT INTO `enroll2` (`meet_id`, `mentor_id`) VALUES (107, 37);
 INSERT INTO `enroll2` (`meet_id`, `mentor_id`) VALUES (107, 61);
-INSERT INTO `enroll2` (`meet_id`, `mentor_id`) VALUES (109, 28);
-INSERT INTO `enroll2` (`meet_id`, `mentor_id`) VALUES (109, 29);
+INSERT INTO `enroll2` (`meet_id`, `mentor_id`) VALUES (108, 36);
+INSERT INTO `enroll2` (`meet_id`, `mentor_id`) VALUES (108, 61);
 
 INSERT INTO `material` (`title`, `author`, `type`, `url`, `assigned_date`, `notes`) VALUES ('Grade 6 English Material', 'Baby Yoda', 'Reading Assignment', 'https://google.com', '2020-05-02', 'Grade 6 English Material Notes');
 INSERT INTO `material` (`title`, `author`, `type`, `url`, `assigned_date`, `notes`) VALUES ('Grade 6 Math Material', 'Tiger Woods', 'Math Assignment', 'https://bing.com', '2020-05-03', 'Grade 6 Math Material Notes');
@@ -407,6 +428,7 @@ INSERT INTO `material` (`title`, `author`, `type`, `url`, `assigned_date`, `note
 INSERT INTO `material` (`title`, `author`, `type`, `url`, `assigned_date`, `notes`) VALUES ('Grade 8 Math Material', 'Tiger Woods', 'Math Assignment', 'https://bing.com', '2020-05-09', 'Grade 8 Math Material Notes');
 INSERT INTO `material` (`title`, `author`, `type`, `url`, `assigned_date`, `notes`) VALUES ('Grade 9 English Material', 'Baby Yoda', 'Reading Assignment', 'https://google.com', '2020-05-16', 'Grade 9 English Material Notes');
 INSERT INTO `material` (`title`, `author`, `type`, `url`, `assigned_date`, `notes`) VALUES ('Grade 9 Math Material', 'Tiger Woods', 'Math Assignment', 'https://bing.com', '2020-05-16', 'Grade 9 Math Material Notes');
+INSERT INTO `material` (`title`, `author`, `type`, `url`, `assigned_date`, `notes`) VALUES ('Grade 9 English Material', 'Baby Yoda', 'Reading Assignment', 'https://google.com', '2020-05-17', 'Grade 9 English Material Notes');
 
 INSERT INTO `assign` (`meet_id`, `material_id`) VALUES (100, 12);
 INSERT INTO `assign` (`meet_id`, `material_id`) VALUES (101, 13);
@@ -416,3 +438,4 @@ INSERT INTO `assign` (`meet_id`, `material_id`) VALUES (104, 16);
 INSERT INTO `assign` (`meet_id`, `material_id`) VALUES (105, 17);
 INSERT INTO `assign` (`meet_id`, `material_id`) VALUES (106, 18);
 INSERT INTO `assign` (`meet_id`, `material_id`) VALUES (107, 19);
+INSERT INTO `assign` (`meet_id`, `material_id`) VALUES (108, 20);
