@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Database Phase 3 Android</string>
+    <string name="name_tag" type="id"/>
+    <string name="id_tag" type="id"/>
+</resources>

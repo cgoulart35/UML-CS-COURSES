@@ -1,0 +1,2 @@
+rootProject.name='Database Phase 3 Android'
+include ':app'

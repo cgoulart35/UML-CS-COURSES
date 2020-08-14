@@ -1,0 +1,145 @@
+Names:
+  Christopher Goulart
+  Fenim Patel
+
+
+
+How to install:
+  - First, place the db2 folder containing our project code into the C:\xampp\htdocs
+    folder.
+  - Next, run the Apache and MySQL XAMPP modules and open the MySQL admin page.
+  - Next, import the DB2.sql file into your db2 database. I recommend dropping
+    the database first (db2 -> operations -> remove database), then creating it again
+    (new -> "db2" as name -> utf8mb4_general_ci -> create). Import the sql file by
+    clicking on db2 -> import -> choose the db2.sql file -> utf-8 -> go.
+  - Lastly, navigate to http://localhost/db2/index.php or http://localhost/db2/ and
+    you are ready to go!
+
+
+
+Listed below are locations in our code of the project requirements and how to perform
+these actions as a user using the web interface:
+
+  1. Admin will have a default account. Parents and students will be able to create an
+     account. Parents must create account before their children. Students are put into groups
+     according to their grade level. Students will be able to update their own accounts;
+     parents will be able to update both their own and their children’s accounts.
+
+     CODE LOCATION:
+        registerStudent.php, registerParent.php, registerAdmin.php, student.php (update info
+        lines 57-147), parent.php (update info and child's info lines 50-193), and in
+        admin.php (update info 169-248 and other users' info 298-379)
+     INSTRUCTIONS:
+        To register as a specific user, click on register the type of user you want to
+        register on the homepage and fill in the form with the desired information. Remember,
+        to register a student a parent account must already exist and be given at student
+        registration.
+        To edit a user's information they registered with, you will need to login. A student
+        can edit their own information, a parent can edit their own and their children's
+        information, and an admin can edit their own or anyone's information.
+        To login as a user, click login or sign in and enter the correct email and pasword.
+        Logging in will take you to the student.php, parent.php, or admin.php depending on
+        who you logged in as.
+        To edit your own information, type new inputs into the form at the top of the page
+        after you log in and click submit. If you want to edit your child's information or
+        another user's information as an admin, click Edit Student or Edit Parent or Edit
+        Admin next to the corresponding user's name and type new inputs into the form at the
+        top of the page and click submit.
+       
+
+  2. There are 7 groups, from Group6 to Group12. A 9-grade student may be mentor of
+     Group6 and mentee of Group9. A 10-grade student may be mentor of both Group6 and
+     Group7, and so on.
+
+     CODE LOCATION:
+        student.php (lines 149-420), dropAsMentor.php, dropAsMentee.php, dropMeetingsAsMentor.php,
+        dropMeetingsAsMentee.php, dropAllAsMentor.php, dropAllAsMentee.php, addAsMentor.php,
+        addAsMentee.php, addMeetingsAsMentor.php, addMeetingsAsMentee.php, db2.sql (group requirements
+        lines 330-336)
+     INSTRUCTIONS:
+        As either a student, parent, or admin, go to a student's page (your own page if you
+        are a student) and view the various tables called "Meetings --- is a mentor of:",
+        "Possible meetings for --- to be a mentor of:", "Meetings --- is a mentee of:",
+        and "Possible meetings for --- to be a mentee of:". Mentor tables will only show up
+        for students in grade 9-12 as grades 6-8 can only be mentees. Mentee tables will only
+        show up for students in grade 6-9 as grades 10-12 can only be mentors. As you can see,
+        only grade 9 students can see both mentor and mentee tables. Meetings in specific groups
+        that the student can be a mentor or mentee of will show up based on the group/grade the 
+        student is in. The student can add or drop one displayed meeting, or add or drop all displayed
+        meetings with the same name, not on the same weekend (for the rest of the year).
+        You can also click on view meeting to see the meeting's information,
+        the meeting's material if you are a mentee or mentor, or a parent of,
+        or an admin, the meeting's mentees and mentors if you are logged in as a mentor or admin, 
+        and an option to post materials if you are logged in as an admin.
+
+  3. Meeting are hold on Saturday and Sunday evenings. All meetings are one-hour long.
+     Each meeting should have 3-6 mentees and 2-3 mentors. A student can join all the
+     future meetings for the academic year or join only one meeting for the week by end of
+     Thursday of the week; Mentees and mentors can quit from a meeting or all meetings at
+     any time. Mentees and mentors can also be assigned to meetings by admin.
+
+     CODE LOCATION:
+        student.php (lines 149-420), dropAsMentor.php, dropAsMentee.php, dropMeetingsAsMentor.php,
+        dropMeetingsAsMentee.php, dropAllAsMentor.php, dropAllAsMentee.php, addAsMentor.php,
+        addAsMentee.php, addMeetingsAsMentor.php, addMeetingsAsMentee.php,
+        parent.php (assign meetings by editing children lines 123-193), and in
+        admin.php (assign meetings by editing students 298-379), db2.sql (meeting information on
+        lines 342-351)
+     INSTRUCTIONS:
+        Again, a student can add or drop one displayed meeting, or add or drop all displayed
+        meetings with the same name, not on the same weekend (for the rest of the year).
+        Notice the warnings displayed on the possible meetings tables; if there are already 3 mentors
+        or 6 mentees, your add request will not go through. Also, you can only be a mentor of one
+        meeting per weekend, you can only be a mentee of meetings with different times,
+        and you can only have one meeting per subject each weekend as a mentee.
+        Previous meetings will not show up as possible meetings, but they do show up in
+        enrolled meetings. Future meetings show up, however you can only add the current weekend's
+        meetings by Thursday. Mentors and mentees can also be assigned by admins and parents (children)
+        by clicking on the Edit Student button for the desired student, and then adding the meeting(s).
+
+  4. A mentor will be able to see list of other mentors and all mentees of the meetings he/she
+     is mentoring including names and email addresses.
+
+     CODE LOCATION:
+        student.php (view meeting buttons within lines 149-420), meeting.php (view mentors and mentees
+        if mentor, parent of mentor, or admin lines 221-268)
+     INSTRUCTIONS:
+        Again, you can also click on view meeting to see the
+        meeting's information, the meeting's material if you are a mentee or mentor, or a parent of,
+        or an admin, and the meeting's mentees and mentors if you are logged in as a mentor or admin, 
+        and an option to post materials if you are logged in as an admin.
+
+  5. A meeting with fewer than 3 mentees will be canceled on Friday. All participants of the
+     meeting need to be notified of the cancelation. If a meeting has fewer than 2 mentors, 
+     the admin will need to add mentors to the meeting. For simplicity, you can just generate
+     notification files which contain the names and email addresses of the users who should
+     be notified.
+
+     CODE LOCATION:
+        admin.php (if it's Friday, cancel meetings & add needed mentors 60-167), addAsMentorAndNotify.php
+     INSTRUCTIONS:
+        On a Friday when the admin logs in, they will see an option at the top of the page which shows meetings
+        this weekend that have less than 2 mentors. The admin can add available mentors to meetings, and 
+        notification text files are generated for each mentor added to a meeting with a timestamp on its name.
+        These mentor added notification files contain the name and email of a mentor, and a meeting name they're
+        added to. If there are any meetings for this weekend which have less than three mentees, those meetings
+        will be canceled and a notification text file is generated. The file contains the names and emails to be
+        notified of their specific canceled meetings.
+
+  6. The admin will post study materials to each group’s meetings every Friday for the
+     following week. A student will be able to see the current and past materials for each
+     meeting of the group he/she is in.
+
+     CODE LOCATION: admin.php (post buttons lines 250-296), meeting.php (post materials lines 105-179 &
+        view materials lines 181-219), student.php (view meeting buttons within lines 149-420)
+     INSTRUCTIONS:
+        Logged in as an admin, click on post materials for a certain meeting. You can also view meetings
+        off a student page when logged in as an admin and post materials that way. Admins can post materials
+        to all current and future meetings whenever he/she wants to. Students of meetings
+        will be able to see posted materials by clicking view meeting.
+
+Notes:
+  - Throughout the PDF, there was no requirement to add meetings, so we did not implement this.
+  - The features for #5 will ONLY show up/execute when it is Friday!!! Please test this on a Friday, or
+    change line 63 in admin.php to look like: date('D') == '___'. Please insert the acronym for the day 
+    you are testing on (Mon, Tue, Wed, Thu, Fri, Sat, Sun).
